@@ -10,7 +10,7 @@ clean, elegan, dan setara marketplace interior premium seperti Dekoruma.
 
 ---
 
-## ✨ Fitur
+## Fitur
 
 - Hero carousel premium dengan parallax mouse + animasi reveal Framer Motion
 - Floating decorative shapes & ambient gradient di landing page
@@ -31,7 +31,7 @@ clean, elegan, dan setara marketplace interior premium seperti Dekoruma.
 
 ---
 
-## 🧱 Struktur Folder
+## Struktur Folder
 
 ```
 src/
@@ -66,7 +66,7 @@ src/
 
 ---
 
-## 🚀 Cara Menjalankan
+## Cara Menjalankan
 
 > Membutuhkan **Node.js ≥ 18** dan **npm ≥ 9** (atau pnpm / yarn).
 
@@ -91,7 +91,7 @@ npm run preview
 
 ---
 
-## 🎨 Design Tokens
+## Design Tokens
 
 Tailwind dikonfigurasi dengan token brand di `tailwind.config.js`:
 
@@ -127,7 +127,7 @@ Komponen UI tidak perlu diubah karena hanya berbicara melalui service.
 
 ---
 
-## 🛒 State Management
+## State Management
 
 - `useCartStore` (Zustand + persist) — items, open/close, addItem,
   updateQuantity, removeItem, clear. `useCartTotals()` mengembalikan subtotal,
@@ -138,7 +138,7 @@ Komponen UI tidak perlu diubah karena hanya berbicara melalui service.
 
 ---
 
-## 📱 Halaman
+## Halaman
 
 | Path                  | Komponen          |
 | --------------------- | ----------------- |
@@ -158,7 +158,7 @@ Setiap kategori (`dinnerware`, `glassware`, `kitchenware`, `decor`, `storage`,
 
 ---
 
-## 🧪 Catatan Production
+## Catatan Production
 
 - Semua import memakai alias `@/...` (resolved ke `src/*` di `vite.config.js`).
 - Gambar produk menggunakan Unsplash CDN agar siap pakai. Ganti dengan asset
@@ -166,4 +166,4 @@ Setiap kategori (`dinnerware`, `glassware`, `kitchenware`, `decor`, `storage`,
 - Auth dummy menyimpan token mock ke `localStorage`. Wajib diganti dengan auth
   backend yang sebenarnya sebelum live.
 
-Selamat berkarya ✦
+Selamat berkarya 
