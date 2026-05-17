@@ -50,10 +50,10 @@ export default function MobileMenu({ open, onClose }) {
             onClick={onClose}
             className={({ isActive }) =>
               cn(
-                'rounded-2xl px-4 py-3 text-sm font-medium transition',
+                'rounded-full px-4 py-3 text-sm font-medium transition',
                 isActive
-                  ? 'bg-sage-100 text-sage-800'
-                  : 'text-charcoal-700 hover:bg-cream-100',
+                  ? 'bg-charcoal-900 text-white shadow-soft'
+                  : 'text-charcoal-600 hover:bg-white hover:shadow-soft',
               )
             }
           >
@@ -71,8 +71,8 @@ export default function MobileMenu({ open, onClose }) {
           onClick={onClose}
           className={({ isActive }) =>
             cn(
-              'rounded-2xl px-4 py-3 text-sm font-medium transition',
-              isActive ? 'bg-sage-100 text-sage-800' : 'text-charcoal-700 hover:bg-cream-100'
+              'rounded-xl px-4 py-3 text-sm font-medium transition',
+              isActive ? 'bg-sage-50 text-sage-800' : 'text-charcoal-600 hover:bg-sage-50 hover:text-sage-700'
             )
           }
         >
@@ -83,8 +83,8 @@ export default function MobileMenu({ open, onClose }) {
           onClick={onClose}
           className={({ isActive }) =>
             cn(
-              'rounded-2xl px-4 py-3 text-sm font-medium transition',
-              isActive ? 'bg-sage-100 text-sage-800' : 'text-charcoal-700 hover:bg-cream-100'
+              'rounded-xl px-4 py-3 text-sm font-medium transition',
+              isActive ? 'bg-sage-50 text-sage-800' : 'text-charcoal-600 hover:bg-sage-50 hover:text-sage-700'
             )
           }
         >
@@ -95,8 +95,8 @@ export default function MobileMenu({ open, onClose }) {
           onClick={onClose}
           className={({ isActive }) =>
             cn(
-              'rounded-2xl px-4 py-3 text-sm font-medium transition',
-              isActive ? 'bg-sage-100 text-sage-800' : 'text-charcoal-700 hover:bg-cream-100'
+              'rounded-xl px-4 py-3 text-sm font-medium transition',
+              isActive ? 'bg-sage-50 text-sage-800' : 'text-charcoal-600 hover:bg-sage-50 hover:text-sage-700'
             )
           }
         >
@@ -111,8 +111,8 @@ export default function MobileMenu({ open, onClose }) {
               onClick={onClose}
               className={({ isActive }) =>
                 cn(
-                  'rounded-2xl px-4 py-3 text-sm font-medium transition',
-                  isActive ? 'bg-sage-100 text-sage-800' : 'text-sage-600 hover:bg-sage-50'
+                  'rounded-xl px-4 py-3 text-sm font-medium transition',
+                  isActive ? 'bg-sage-100 text-sage-900' : 'text-sage-600 hover:bg-sage-50 hover:text-sage-800'
                 )
               }
             >
