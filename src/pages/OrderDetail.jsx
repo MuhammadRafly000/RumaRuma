@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Package, MapPin, Truck, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, MapPin, FileText, Banknote, Truck, Inbox, Star } from 'lucide-react';
 import { useOrderStore } from '@/context/OrderContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import cn from '@/utils/classNames';
@@ -22,11 +22,51 @@ export default function OrderDetail() {
     );
   }
 
+  // Calculate active step index based on current status
+  const getActiveStepIndex = () => {
+    if (order.status === 'Selesai') return 4;
+    if (order.status === 'Dikirim') return 2;
+    return 1; // 'Diproses' covers placed and paid
+  };
+
+  const activeIndex = getActiveStepIndex();
+
+  const formatDate = (dateString, offsetHours = 0) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    date.setHours(date.getHours() + offsetHours);
+    return date.toLocaleDateString('id-ID', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    }).replace(/\//g, '-');
+  };
+
   const steps = [
-    { label: 'Pesanan Diterima', active: true },
-    { label: 'Diproses', active: true },
-    { label: 'Dikirim', active: order.status === 'Dikirim' || order.status === 'Selesai' },
-    { label: 'Selesai', active: order.status === 'Selesai' },
+    { 
+      label: 'Pesanan Dibuat', 
+      icon: FileText, 
+      date: formatDate(order.date, 0)
+    },
+    { 
+      label: 'Pesanan Dibayar', 
+      icon: Banknote, 
+      date: formatDate(order.date, 0.5) 
+    },
+    { 
+      label: 'Pesanan Dikirim', 
+      icon: Truck, 
+      date: activeIndex >= 2 ? formatDate(order.date, 24) : null 
+    },
+    { 
+      label: 'Pesanan Diterima', 
+      icon: Inbox, 
+      date: activeIndex >= 4 ? formatDate(order.date, 48) : null 
+    },
+    { 
+      label: 'Pesanan Selesai', 
+      icon: Star, 
+      date: activeIndex >= 4 ? formatDate(order.date, 49) : null 
+    },
   ];
 
   return (
@@ -62,37 +102,89 @@ export default function OrderDetail() {
         <div className="space-y-8">
           
           {/* Status Tracker */}
-          <section className="rounded-3xl bg-white p-6 shadow-soft sm:p-8">
-            <h3 className="mb-6 font-semibold text-charcoal-800">Status Pengiriman</h3>
-            <div className="relative flex justify-between">
-              <div className="absolute left-0 top-1/2 -z-10 h-1 w-full -translate-y-1/2 bg-charcoal-100 rounded-full" />
-              <div 
-                className="absolute left-0 top-1/2 -z-10 h-1 -translate-y-1/2 bg-sage-500 rounded-full transition-all duration-1000"
-                style={{ width: order.status === 'Selesai' ? '100%' : order.status === 'Dikirim' ? '66%' : '33%' }}
+          <section className="rounded-3xl bg-white p-6 shadow-soft sm:p-8 overflow-x-auto overflow-y-hidden hide-scrollbar">
+            <h3 className="mb-8 font-semibold text-charcoal-800 text-lg sticky left-0">Status Pengiriman</h3>
+            
+            <div className="relative min-w-[600px] px-2 pb-4">
+              {/* Progress Bar Background */}
+              <div className="absolute left-10 right-10 top-6 h-1 bg-charcoal-100 rounded-full" />
+              
+              {/* Active Progress Bar */}
+              <motion.div 
+                className="absolute left-10 top-6 h-1 bg-sage-500 rounded-full origin-left"
+                initial={{ width: 0 }}
+                animate={{ width: `calc(${(activeIndex / (steps.length - 1)) * 100}% - ${activeIndex === 0 ? 0 : 20}px)` }}
+                transition={{ duration: 1, ease: "easeInOut" }}
               />
-              {steps.map((step, i) => (
-                <div key={i} className="flex flex-col items-center gap-2 bg-white px-2">
-                  <div className={cn(
-                    "grid h-8 w-8 place-items-center rounded-full border-2 transition-colors",
-                    step.active ? "border-sage-500 bg-sage-500 text-white" : "border-charcoal-200 bg-white text-charcoal-300"
-                  )}>
-                    {i === 3 ? <CheckCircle2 className="h-4 w-4" /> : i === 2 ? <Truck className="h-4 w-4" /> : <Package className="h-4 w-4" />}
-                  </div>
-                  <span className={cn(
-                    "text-xs font-medium",
-                    step.active ? "text-charcoal-800" : "text-charcoal-400"
-                  )}>
-                    {step.label}
-                  </span>
-                </div>
-              ))}
+
+              <div className="relative flex justify-between">
+                {steps.map((step, i) => {
+                  const isActive = i <= activeIndex;
+                  const isCurrent = i === activeIndex;
+                  const Icon = step.icon;
+
+                  return (
+                    <div key={i} className="flex flex-col items-center group w-24">
+                      {/* Icon Circle */}
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: i * 0.15, duration: 0.3 }}
+                        className={cn(
+                          "relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-[3px] bg-white transition-all duration-500",
+                          isActive 
+                            ? "border-sage-500 text-sage-600 shadow-md" 
+                            : "border-charcoal-200 text-charcoal-300 bg-charcoal-50"
+                        )}
+                      >
+                        <Icon className={cn("h-5 w-5", isActive && "drop-shadow-sm")} strokeWidth={isActive ? 2.5 : 2} />
+                        
+                        {/* Pulse effect for current active step */}
+                        {isCurrent && order.status !== 'Selesai' && (
+                          <span className="absolute -z-10 inline-flex h-full w-full animate-ping rounded-full bg-sage-400 opacity-30"></span>
+                        )}
+                      </motion.div>
+
+                      {/* Text Content */}
+                      <div className="mt-4 text-center">
+                        <span className={cn(
+                          "block text-xs font-semibold transition-colors duration-300",
+                          isActive ? "text-charcoal-800" : "text-charcoal-400"
+                        )}>
+                          {step.label}
+                        </span>
+                        
+                        {/* Date */}
+                        <div className={cn(
+                          "mt-1 text-[10px] sm:text-xs transition-all duration-300 font-medium",
+                          isActive ? "text-charcoal-400 opacity-100" : "opacity-0 translate-y-2"
+                        )}>
+                          {step.date || '\u00A0'}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
             
             {order.status === 'Dikirim' && (
-              <div className="mt-8 rounded-2xl bg-blue-50 p-4 text-sm text-blue-800">
-                <p className="font-semibold">Resi JNE: JNE88291029381</p>
-                <p className="mt-1">Pesanan Anda sedang dalam perjalanan menuju alamat pengiriman.</p>
-              </div>
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="mt-6 rounded-2xl bg-sage-50 border border-sage-100 p-5 text-sm text-sage-900 sticky left-0"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-sage-200/50 rounded-lg shrink-0">
+                    <Truck className="h-5 w-5 text-sage-700" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sage-800">Resi JNE: JNE88291029381</p>
+                    <p className="mt-1 text-sage-700/80">Pesanan Anda sedang dalam perjalanan menuju alamat pengiriman. Kurir akan segera menghubungi Anda jika sudah dekat.</p>
+                  </div>
+                </div>
+              </motion.div>
             )}
           </section>
 
