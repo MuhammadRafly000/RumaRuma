@@ -22,7 +22,7 @@ export default function StorySection() {
         >
           <div className="absolute -left-6 -top-6 -z-10 h-3/4 w-3/4 rounded-[2rem] bg-sage-100" />
           <img
-            src="https://images.unsplash.com/photo-1556909114-44e3e9399a2e?auto=format&fit=crop&w=1200&q=80"
+            src="/images/products/p-002.png"
             alt="Pengrajin RumaRuma"
             className="aspect-[4/5] w-full rounded-[2rem] object-cover shadow-card"
           />

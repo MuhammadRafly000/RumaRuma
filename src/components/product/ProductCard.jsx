@@ -50,6 +50,9 @@ export default function ProductCard({ product, className, layout = 'grid' }) {
             src={product.images[0]}
             alt={product.name}
             loading="lazy"
+            onError={(e) => {
+              e.target.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f5f1ed%22 width=%22400%22 height=%22400%22/%3E%3C/svg%3E';
+            }}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </Link>
@@ -94,6 +97,9 @@ export default function ProductCard({ product, className, layout = 'grid' }) {
           src={product.images[0]}
           alt={product.name}
           loading="lazy"
+          onError={(e) => {
+            e.target.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f5f1ed%22 width=%22400%22 height=%22400%22/%3E%3C/svg%3E';
+          }}
           className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

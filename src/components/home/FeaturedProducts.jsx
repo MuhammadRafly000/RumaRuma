@@ -14,6 +14,7 @@ export default function FeaturedProducts() {
   const [tab, setTab] = useState('bestseller');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [tabLoading, setTabLoading] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -27,6 +28,12 @@ export default function FeaturedProducts() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    setTabLoading(true);
+    const timer = setTimeout(() => setTabLoading(false), 100);
+    return () => clearTimeout(timer);
+  }, [tab]);
 
   const filtered = (() => {
     if (tab === 'bestseller') return products.filter((p) => p.isBestseller);
@@ -72,7 +79,7 @@ export default function FeaturedProducts() {
         </div>
       </div>
 
-      <ProductGrid products={filtered} loading={loading} skeletonCount={8} />
+      <ProductGrid products={filtered} loading={loading || tabLoading} skeletonCount={8} />
     </section>
   );
 }

@@ -138,13 +138,13 @@ export default function Navbar() {
               <NavLink
                 key={link.to}
                 to={link.to}
-                end={link.to === '/'}
+                end
                 className={({ isActive }) =>
                   cn(
                     'whitespace-nowrap rounded-full px-4 py-1.5 text-sm font-medium transition',
                     isActive
                       ? 'bg-charcoal-900 text-white shadow-soft'
-                      : 'text-charcoal-600 hover:bg-cream-100',
+                      : 'text-charcoal-600 hover:bg-white hover:shadow-soft',
                   )
                 }
               >
