@@ -5,11 +5,17 @@ import Drawer from '@/components/ui/Drawer.jsx';
 import EmptyState from '@/components/ui/EmptyState.jsx';
 import Button from '@/components/ui/Button.jsx';
 import CartItem from './CartItem.jsx';
+import { useNavigate } from 'react-router-dom';
 import { useCartTotals } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { FREE_SHIPPING_THRESHOLD } from '@/config/constants';
 
 export default function CartSidebar({ open, onClose }) {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const toast = useToast();
   const { items, subtotal, shipping, total, freeShippingRemainder, itemCount } =
     useCartTotals();
 
@@ -52,7 +58,17 @@ export default function CartSidebar({ open, onClose }) {
               >
                 Lihat Keranjang
               </Button>
-              <Button as={Link} to="/checkout" onClick={onClose}>
+              <Button 
+                onClick={() => {
+                  onClose();
+                  if (!isAuthenticated) {
+                    toast.error('Akses Ditolak', 'Silakan login terlebih dahulu untuk checkout.');
+                    navigate('/login', { state: { from: '/checkout' } });
+                  } else {
+                    navigate('/checkout');
+                  }
+                }}
+              >
                 Checkout
               </Button>
             </div>

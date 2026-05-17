@@ -5,11 +5,15 @@ import CartItem from '@/components/cart/CartItem.jsx';
 import EmptyState from '@/components/ui/EmptyState.jsx';
 import Button from '@/components/ui/Button.jsx';
 import { useCartStore, useCartTotals } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { FREE_SHIPPING_THRESHOLD } from '@/config/constants';
 
 export default function CartPage() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const toast = useToast();
   const { items, subtotal, shipping, savings, total, freeShippingRemainder } =
     useCartTotals();
   const clear = useCartStore((s) => s.clear);
@@ -119,7 +123,14 @@ export default function CartPage() {
               size="lg"
               fullWidth
               className="mt-5"
-              onClick={() => navigate('/checkout')}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  toast.error('Akses Ditolak', 'Silakan login terlebih dahulu untuk checkout.');
+                  navigate('/login', { state: { from: '/checkout' } });
+                } else {
+                  navigate('/checkout');
+                }
+              }}
             >
               Lanjut ke Pembayaran
             </Button>

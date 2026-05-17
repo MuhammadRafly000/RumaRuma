@@ -123,21 +123,25 @@ export default function MobileMenu({ open, onClose }) {
         </Link>
       </div>
 
-      <div className="mt-6 rounded-3xl bg-sage-50 p-4">
+      <Link
+        to={isAuthenticated ? "/profil" : "/login"}
+        onClick={onClose}
+        className="mt-6 block rounded-3xl bg-sage-50 p-4 transition hover:bg-sage-100"
+      >
         <div className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-full bg-sage-600 text-white">
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sage-600 text-white">
             <User className="h-5 w-5" />
           </div>
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-charcoal-900">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-charcoal-900">
               {isAuthenticated ? `Halo, ${user?.name}` : 'Tamu'}
             </p>
-            <p className="text-xs text-charcoal-500">
+            <p className="truncate text-xs text-charcoal-500">
               {isAuthenticated ? user?.email : 'Login untuk simpan keranjang & wishlist.'}
             </p>
           </div>
         </div>
-      </div>
+      </Link>
 
       <a
         href="mailto:halo@rumaruma.id"

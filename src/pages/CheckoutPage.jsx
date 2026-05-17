@@ -13,6 +13,7 @@ import { motion } from 'framer-motion';
 import Input from '@/components/ui/Input.jsx';
 import Button from '@/components/ui/Button.jsx';
 import EmptyState from '@/components/ui/EmptyState.jsx';
+import { useAuth } from '@/context/AuthContext';
 import { useCartStore, useCartTotals } from '@/context/CartContext';
 import { useOrderStore } from '@/context/OrderContext';
 import { useToast } from '@/context/ToastContext';
@@ -52,6 +53,7 @@ const PAYMENT_OPTIONS = [
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const toast = useToast();
+  const { isAuthenticated } = useAuth();
   const clear = useCartStore((s) => s.clear);
   const addOrder = useOrderStore((s) => s.addOrder);
   const { items, subtotal } = useCartTotals();
@@ -93,6 +95,11 @@ export default function CheckoutPage() {
 
   const submit = (e) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      toast.error('Akses Ditolak', 'Silakan login terlebih dahulu untuk melanjutkan pesanan.');
+      navigate('/login', { state: { from: '/checkout' } });
+      return;
+    }
     if (!form.fullName || !form.phone || !form.address) {
       toast.error('Lengkapi data pengiriman', 'Nama, nomor HP, dan alamat wajib diisi.');
       return;
