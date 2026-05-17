@@ -23,9 +23,9 @@ export default function AdminOrders() {
         <p className="text-sm text-charcoal-500">Kelola dan perbarui status pesanan pelanggan.</p>
       </div>
 
-      <div className="rounded-3xl bg-white shadow-soft">
-        <div className="p-6">
-          <table className="w-full text-left text-sm">
+      <div className="rounded-3xl bg-white shadow-soft overflow-hidden">
+        <div className="overflow-x-auto p-4 sm:p-6">
+          <table className="w-full text-left text-sm min-w-[800px]">
             <thead className="border-b border-charcoal-100 text-charcoal-400">
               <tr>
                 <th className="pb-3 font-medium">Order ID / Tanggal</th>

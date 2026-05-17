@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, Link } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingCart, LogOut, Bell, ChevronDown, Settings } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, LogOut, Bell, ChevronDown, Settings, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '@/components/layout/Logo.jsx';
 import cn from '@/utils/classNames';
@@ -18,6 +18,7 @@ export default function AdminLayout() {
   
   const [profileOpen, setProfileOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   const profileRef = useRef(null);
   const notifRef = useRef(null);
@@ -47,10 +48,27 @@ export default function AdminLayout() {
       transition={{ duration: 0.4 }}
       className="flex min-h-screen bg-sage-50"
     >
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-charcoal-900/20 backdrop-blur-sm lg:hidden" 
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="fixed bottom-0 left-0 top-0 w-64 border-r border-charcoal-100 bg-white shadow-soft">
-        <div className="flex h-20 items-center px-6">
+      <aside className={cn(
+        "fixed bottom-0 left-0 top-0 z-50 w-64 border-r border-charcoal-100 bg-white shadow-soft transition-transform duration-300 lg:translate-x-0",
+        sidebarOpen ? "translate-x-0" : "-translate-x-full"
+      )}>
+        <div className="flex h-20 items-center justify-between px-6">
           <Logo />
+          <button 
+            className="lg:hidden rounded-lg p-2 text-charcoal-500 hover:bg-sage-50"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <X className="h-5 w-5" />
+          </button>
         </div>
         
         <div className="px-4 py-6">
@@ -73,6 +91,7 @@ export default function AdminLayout() {
                         : 'text-charcoal-600 hover:bg-sage-100 hover:text-sage-800'
                     )
                   }
+                  onClick={() => setSidebarOpen(false)}
                 >
                   <Icon className="h-5 w-5" />
                   {link.label}
@@ -94,11 +113,19 @@ export default function AdminLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="ml-64 flex-1">
-        <div className="h-20 border-b border-charcoal-100 bg-white px-8 flex items-center justify-between z-40 relative">
-          <h1 className="font-display text-xl text-charcoal-800">Admin Panel</h1>
+      <main className="flex-1 lg:ml-64 w-full max-w-full overflow-hidden transition-all duration-300">
+        <div className="h-20 border-b border-charcoal-100 bg-white px-4 md:px-8 flex items-center justify-between z-30 relative">
+          <div className="flex items-center gap-3">
+            <button 
+              className="lg:hidden rounded-lg p-2 text-charcoal-600 hover:bg-sage-50"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-6 w-6" />
+            </button>
+            <h1 className="font-display text-lg md:text-xl text-charcoal-800">Admin Panel</h1>
+          </div>
           
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2 md:gap-5">
             
             {/* Notification Bell Dropdown */}
             <div className="relative" ref={notifRef}>
@@ -201,7 +228,7 @@ export default function AdminLayout() {
           </div>
         </div>
         
-        <div className="p-8">
+        <div className="p-4 md:p-8 overflow-x-hidden">
           <Outlet />
         </div>
       </main>

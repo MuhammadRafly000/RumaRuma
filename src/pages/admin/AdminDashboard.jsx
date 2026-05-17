@@ -96,7 +96,7 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <div className="overflow-x-auto p-2">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-left text-sm min-w-[600px]">
               <thead>
                 <tr>
                   <th className="px-4 py-3 font-semibold text-charcoal-500">ID Pesanan</th>

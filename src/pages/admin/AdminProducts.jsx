@@ -19,18 +19,18 @@ export default function AdminProducts() {
 
   return (
     <div className="space-y-8">
-      <header className="flex items-center justify-between">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-display text-charcoal-800">Manajemen Produk</h2>
           <p className="text-sm text-charcoal-500">Kelola katalog produk RumaRuma.</p>
         </div>
-        <Button as={Link} to="/admin/produk/baru" className="gap-2">
+        <Button as={Link} to="/admin/produk/baru" className="gap-2 self-start sm:self-auto">
           <Plus className="h-4 w-4" /> Tambah Produk
         </Button>
       </header>
 
       <div className="rounded-3xl bg-white shadow-soft overflow-hidden">
-        <div className="overflow-x-auto p-6">
+        <div className="overflow-x-auto p-4 sm:p-6">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-charcoal-100 text-charcoal-400">
               <tr>
