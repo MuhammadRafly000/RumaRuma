@@ -11,6 +11,7 @@ export const STORAGE_KEYS = {
   wishlist: 'rumaruma:wishlist',
   auth: 'rumaruma:auth',
   location: 'rumaruma:location',
+  orders: 'rumaruma:orders',
 };
 
 export const FREE_SHIPPING_THRESHOLD = 250_000;
@@ -23,6 +24,8 @@ export const NAV_LINKS = [
   { to: '/kategori/kitchenware', label: 'Kitchenware' },
   { to: '/kategori/decor', label: 'Dekorasi' },
   { to: '/kategori/storage', label: 'Storage' },
+  { to: '/inspirasi', label: 'Inspirasi' },
+  { to: '/jurnal', label: 'Jurnal' },
 ];
 
 export const SORT_OPTIONS = [

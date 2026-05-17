@@ -12,7 +12,7 @@ const sections = [
     links: [
       { label: 'Semua Produk', to: '/kategori' },
       { label: 'Pecah Belah', to: '/kategori/dinnerware' },
-      { label: 'Gelas & Cangkir', to: '/kategori/glassware' },
+      { label: 'Shop the Look', to: '/inspirasi' },
       { label: 'Kitchenware', to: '/kategori/kitchenware' },
       { label: 'Dekorasi Rumah', to: '/kategori/decor' },
     ],
@@ -30,11 +30,11 @@ const sections = [
   {
     title: 'Tentang',
     links: [
-      { label: 'Cerita RumaRuma', to: '/kategori' },
+      { label: 'Tentang Kami', to: '/tentang-kami' },
+      { label: 'Jurnal RumaRuma', to: '/jurnal' },
+      { label: 'Profil Saya', to: '/profil' },
       { label: 'Pengrajin Mitra', to: '/kategori' },
-      { label: 'Sustainability', to: '/kategori' },
       { label: 'Karier', to: '/kategori' },
-      { label: 'Press Kit', to: '/kategori' },
     ],
   },
 ];

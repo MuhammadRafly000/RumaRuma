@@ -14,6 +14,7 @@ import Input from '@/components/ui/Input.jsx';
 import Button from '@/components/ui/Button.jsx';
 import EmptyState from '@/components/ui/EmptyState.jsx';
 import { useCartStore, useCartTotals } from '@/context/CartContext';
+import { useOrderStore } from '@/context/OrderContext';
 import { useToast } from '@/context/ToastContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import cn from '@/utils/classNames';
@@ -52,6 +53,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const toast = useToast();
   const clear = useCartStore((s) => s.clear);
+  const addOrder = useOrderStore((s) => s.addOrder);
   const { items, subtotal } = useCartTotals();
 
   const [shipping, setShipping] = useState('regular');
@@ -97,12 +99,21 @@ export default function CheckoutPage() {
     }
     setSubmitting(true);
     setTimeout(() => {
+      addOrder({
+        items,
+        subtotal,
+        shipping: shippingFee,
+        total,
+        shippingMethod: SHIPPING_OPTIONS.find((s) => s.id === shipping)?.title,
+        paymentMethod: PAYMENT_OPTIONS.find((p) => p.id === payment)?.title,
+        customer: form,
+      });
       clear();
       toast.success(
         'Pesanan diterima!',
-        'Kami sudah kirim instruksi pembayaran ke email kamu.',
+        'Pesanan kamu berhasil dibuat dan bisa dilihat di Profil.',
       );
-      navigate('/');
+      navigate('/profil');
       setSubmitting(false);
     }, 1200);
   };

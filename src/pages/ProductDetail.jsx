@@ -4,6 +4,7 @@ import { ChevronRight, ArrowLeft } from 'lucide-react';
 import ProductGallery from '@/components/product/ProductGallery.jsx';
 import ProductInfo from '@/components/product/ProductInfo.jsx';
 import ProductGrid from '@/components/product/ProductGrid.jsx';
+import ProductReviews from '@/components/product/ProductReviews.jsx';
 import EmptyState from '@/components/ui/EmptyState.jsx';
 import Skeleton from '@/components/ui/Skeleton.jsx';
 import Button from '@/components/ui/Button.jsx';
@@ -109,6 +110,8 @@ export default function ProductDetail() {
         <ProductGallery images={product.images} alt={product.name} />
         <ProductInfo product={product} />
       </div>
+
+      <ProductReviews productId={product.id} rating={product.rating} totalReviews={product.reviews} />
 
       <section className="mt-16">
         <div className="mb-6 flex items-end justify-between">

@@ -19,6 +19,7 @@ import cn from '@/utils/classNames';
 const initialFilters = () => ({
   brands: [],
   colors: [],
+  materials: [],
   priceRange: null,
   minRating: 0,
   onlyPromo: false,
@@ -69,6 +70,8 @@ export default function CategoryPage() {
       list = list.filter((p) => filters.brands.includes(p.brand));
     if (filters.colors.length)
       list = list.filter((p) => filters.colors.includes(p.color));
+    if (filters.materials.length)
+      list = list.filter((p) => filters.materials.includes(p.material));
     if (filters.priceRange)
       list = list.filter(
         (p) =>

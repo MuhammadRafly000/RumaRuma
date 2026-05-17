@@ -29,6 +29,12 @@ export default function FilterSidebar({
     return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
   }, [products]);
 
+  const materials = useMemo(() => {
+    const map = new Map();
+    products.forEach((p) => p.material && map.set(p.material, (map.get(p.material) || 0) + 1));
+    return Array.from(map.entries()).map(([name, count]) => ({ name, count }));
+  }, [products]);
+
   const toggleArray = (key, value) => {
     const next = new Set(filters[key]);
     if (next.has(value)) next.delete(value);
@@ -135,6 +141,28 @@ export default function FilterSidebar({
         </div>
       </FilterGroup>
 
+      <FilterGroup title="Material">
+        <div className="flex flex-col gap-1.5">
+          {materials.map((m) => (
+            <label
+              key={m.name}
+              className="flex cursor-pointer items-center justify-between gap-2 text-sm text-charcoal-700 hover:text-sage-700"
+            >
+              <span className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-charcoal-200 text-sage-600 focus:ring-sage-400"
+                  checked={filters.materials?.includes(m.name)}
+                  onChange={() => toggleArray('materials', m.name)}
+                />
+                {m.name}
+              </span>
+              <span className="text-xs text-charcoal-300">{m.count}</span>
+            </label>
+          ))}
+        </div>
+      </FilterGroup>
+
       <FilterGroup title="Rating">
         <div className="flex flex-wrap gap-2">
           {[4.5, 4, 3].map((r) => (
@@ -198,6 +226,13 @@ function ActiveFilters({ filters, onChange }) {
       label: c,
       onRemove: () =>
         onChange({ ...filters, colors: filters.colors.filter((x) => x !== c) }),
+    }),
+  );
+  filters.materials?.forEach((m) =>
+    items.push({
+      label: m,
+      onRemove: () =>
+        onChange({ ...filters, materials: filters.materials.filter((x) => x !== m) }),
     }),
   );
   if (filters.priceRange)

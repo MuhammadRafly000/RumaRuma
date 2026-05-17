@@ -5,8 +5,7 @@ export const categories = [
     tagline: 'Piring, mangkuk, & alat makan',
     description:
       'Koleksi piring dan alat makan keramik premium untuk meja makan keluarga yang hangat dan estetik.',
-    image:
-      'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=900&q=80',
+    image: '/images/products/p-001.png',
     accent: 'from-sage-100 to-cream-100',
   },
   {
@@ -15,8 +14,7 @@ export const categories = [
     tagline: 'Gelas, mug, tumbler artisan',
     description:
       'Pilihan gelas kaca, mug keramik, dan tumbler aesthetic untuk momen ngopi dan ngeteh setiap hari.',
-    image:
-      'https://images.unsplash.com/photo-1481833761820-0509d3217039?auto=format&fit=crop&w=900&q=80',
+    image: '/images/products/p-003.png',
     accent: 'from-cream-100 to-cream-200',
   },
   {
@@ -25,8 +23,7 @@ export const categories = [
     tagline: 'Teko, panci, alat masak',
     description:
       'Perlengkapan dapur premium dengan desain skandinavia minimalis dan material tahan lama.',
-    image:
-      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=80',
+    image: '/images/products/p-011.png',
     accent: 'from-cream-200 to-cream-100',
   },
   {
@@ -35,8 +32,7 @@ export const categories = [
     tagline: 'Vas, ornamen, lilin',
     description:
       'Detail kecil yang membuat rumah terasa hidup: vas, lilin aroma, dan ornamen meja yang aesthetic.',
-    image:
-      'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=900&q=80',
+    image: '/images/products/p-007.png',
     accent: 'from-sage-100 to-sage-200',
   },
   {
@@ -45,8 +41,7 @@ export const categories = [
     tagline: 'Toples, basket, container',
     description:
       'Koleksi storage modular untuk dapur dan ruang yang lebih rapi tanpa kehilangan estetika.',
-    image:
-      'https://images.unsplash.com/photo-1556228724-4b3e7e36c2ab?auto=format&fit=crop&w=900&q=80',
+    image: '/images/products/p-009.png',
     accent: 'from-cream-100 to-cream-300',
   },
   {
@@ -55,8 +50,7 @@ export const categories = [
     tagline: 'Apron, taplak, napkin',
     description:
       'Tekstil katun premium yang lembut, mudah dicuci, dan menghangatkan suasana makan bersama.',
-    image:
-      'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=900&q=80',
+    image: '/images/products/p-010.png',
     accent: 'from-cream-200 to-cream-300',
   },
 ];
