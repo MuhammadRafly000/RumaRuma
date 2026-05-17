@@ -6,18 +6,18 @@ import * as authService from '@/services/authService';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [status, setStatus] = useState('idle'); // idle | loading | authenticated | error
-
-  useEffect(() => {
+  const [user, setUser] = useState(() => {
     const stored = storage.get(STORAGE_KEYS.auth);
-    if (stored?.token) {
-      setUser(stored.user);
-      setToken(stored.token);
-      setStatus('authenticated');
-    }
-  }, []);
+    return stored?.user || null;
+  });
+  const [token, setToken] = useState(() => {
+    const stored = storage.get(STORAGE_KEYS.auth);
+    return stored?.token || null;
+  });
+  const [status, setStatus] = useState(() => {
+    const stored = storage.get(STORAGE_KEYS.auth);
+    return stored?.token ? 'authenticated' : 'idle';
+  });
 
   const persist = useCallback((next) => {
     if (next) storage.set(STORAGE_KEYS.auth, next);

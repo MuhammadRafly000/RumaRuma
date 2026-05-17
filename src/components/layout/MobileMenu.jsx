@@ -103,19 +103,23 @@ export default function MobileMenu({ open, onClose }) {
           Tentang Kami
         </NavLink>
 
-        <div className="my-1 h-px w-full bg-charcoal-50" />
-        <NavLink
-          to="/admin"
-          onClick={onClose}
-          className={({ isActive }) =>
-            cn(
-              'rounded-2xl px-4 py-3 text-sm font-medium transition',
-              isActive ? 'bg-sage-100 text-sage-800' : 'text-sage-600 hover:bg-sage-50'
-            )
-          }
-        >
-          Dashboard Admin
-        </NavLink>
+        {user?.role === 'admin' && (
+          <>
+            <div className="my-1 h-px w-full bg-charcoal-50" />
+            <NavLink
+              to="/admin"
+              onClick={onClose}
+              className={({ isActive }) =>
+                cn(
+                  'rounded-2xl px-4 py-3 text-sm font-medium transition',
+                  isActive ? 'bg-sage-100 text-sage-800' : 'text-sage-600 hover:bg-sage-50'
+                )
+              }
+            >
+              Dashboard Admin
+            </NavLink>
+          </>
+        )}
       </nav>
 
       <div className="mt-6 grid grid-cols-2 gap-3">

@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Check } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useProductStore } from '@/context/ProductContext';
 import { useToast } from '@/context/ToastContext';
 import Input from '@/components/ui/Input.jsx';
 import Button from '@/components/ui/Button.jsx';
+import cn from '@/utils/classNames';
 
 export default function AdminProductForm() {
   const { id } = useParams();
@@ -108,16 +110,10 @@ export default function AdminProductForm() {
             <label className="mb-1.5 block text-sm font-medium text-charcoal-700">
               Kategori
             </label>
-            <select
+            <CategoryDropdown
               value={form.category}
-              onChange={handle('category')}
-              className="w-full rounded-xl border border-charcoal-200 bg-white px-4 py-3 text-sm text-charcoal-800 focus:border-sage-500 focus:outline-none focus:ring-1 focus:ring-sage-500"
-            >
-              <option value="pecah-belah">Pecah Belah</option>
-              <option value="kitchenware">Kitchenware</option>
-              <option value="dekorasi">Dekorasi</option>
-              <option value="storage">Storage</option>
-            </select>
+              onChange={(val) => setForm(f => ({ ...f, category: val }))}
+            />
           </div>
         </div>
 
@@ -165,6 +161,80 @@ export default function AdminProductForm() {
           </Button>
         </div>
       </form>
+    </div>
+  );
+}
+
+function CategoryDropdown({ value, onChange }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const categories = [
+    { value: 'pecah-belah', label: 'Pecah Belah' },
+    { value: 'kitchenware', label: 'Kitchenware' },
+    { value: 'dekorasi', label: 'Dekorasi' },
+    { value: 'storage', label: 'Storage' },
+  ];
+
+  const currentCategory = categories.find(c => c.value === value) || categories[2];
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative" ref={dropdownRef}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={cn(
+          "flex w-full items-center justify-between rounded-xl border bg-white px-4 py-3 text-sm text-charcoal-800 transition-all focus:outline-none",
+          isOpen ? "border-sage-500 ring-1 ring-sage-500" : "border-charcoal-200"
+        )}
+      >
+        <span>{currentCategory.label}</span>
+        <ChevronDown className={cn("h-4 w-4 text-charcoal-500 transition-transform duration-200", isOpen && "rotate-180")} />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -5, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -5, scale: 0.95 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute left-0 z-50 mt-2 w-full origin-top rounded-xl bg-white p-1.5 shadow-lg ring-1 ring-black/5"
+          >
+            <div className="max-h-60 overflow-auto space-y-0.5">
+              {categories.map((category) => (
+                <button
+                  type="button"
+                  key={category.value}
+                  onClick={() => {
+                    onChange(category.value);
+                    setIsOpen(false);
+                  }}
+                  className={cn(
+                    "flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                    value === category.value
+                      ? "bg-sage-50 text-sage-700"
+                      : "text-charcoal-700 hover:bg-charcoal-50"
+                  )}
+                >
+                  {category.label}
+                  {value === category.value && <Check className="h-4 w-4 text-sage-600" />}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -21,6 +21,7 @@ export async function loginWithEmail({ email, password }) {
       name: email.split('@')[0],
       email,
       avatar: null,
+      role: email.toLowerCase().includes('admin') ? 'admin' : 'user',
     },
   };
 }
@@ -32,7 +33,13 @@ export async function registerWithEmail({ name, email, password }) {
   }
   return {
     token: 'mock-token-' + Math.random().toString(36).slice(2),
-    user: { id: 'u-' + Date.now(), name, email, avatar: null },
+    user: { 
+      id: 'u-' + Date.now(), 
+      name, 
+      email, 
+      avatar: null,
+      role: email.toLowerCase().includes('admin') ? 'admin' : 'user',
+    },
   };
 }
 

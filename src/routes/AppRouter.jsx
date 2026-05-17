@@ -22,6 +22,7 @@ import AdminDashboard from '@/pages/admin/AdminDashboard.jsx';
 import AdminProducts from '@/pages/admin/AdminProducts.jsx';
 import AdminProductForm from '@/pages/admin/AdminProductForm.jsx';
 import AdminOrders from '@/pages/admin/AdminOrders.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 
 export default function AppRouter() {
   const location = useLocation();
@@ -50,7 +51,14 @@ export default function AppRouter() {
         </Route>
 
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute requireAdmin={true}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<AdminDashboard />} />
           <Route path="produk" element={<AdminProducts />} />
           <Route path="produk/baru" element={<AdminProductForm />} />

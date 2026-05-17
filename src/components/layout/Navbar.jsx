@@ -162,8 +162,12 @@ export default function Navbar() {
                 <Link to="/inspirasi" className="rounded-xl px-3 py-2 text-sm text-charcoal-600 transition hover:bg-sage-50 hover:text-sage-700">Shop the Look</Link>
                 <Link to="/jurnal" className="rounded-xl px-3 py-2 text-sm text-charcoal-600 transition hover:bg-sage-50 hover:text-sage-700">Jurnal & Artikel</Link>
                 <Link to="/tentang-kami" className="rounded-xl px-3 py-2 text-sm text-charcoal-600 transition hover:bg-sage-50 hover:text-sage-700">Tentang Kami</Link>
-                <div className="my-1 h-px bg-charcoal-50" />
-                <Link to="/admin" className="rounded-xl px-3 py-2 text-sm font-medium text-sage-600 transition hover:bg-sage-50 hover:text-sage-800">Dashboard Admin</Link>
+                {user?.role === 'admin' && (
+                  <>
+                    <div className="my-1 h-px bg-charcoal-50" />
+                    <Link to="/admin" className="rounded-xl px-3 py-2 text-sm font-medium text-sage-600 transition hover:bg-sage-50 hover:text-sage-800">Dashboard Admin</Link>
+                  </>
+                )}
               </div>
             </div>
 

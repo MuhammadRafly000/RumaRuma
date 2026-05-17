@@ -2,7 +2,7 @@ export const storage = {
   get(key, fallback = null) {
     if (typeof window === 'undefined') return fallback;
     try {
-      const raw = window.localStorage.getItem(key);
+      const raw = window.sessionStorage.getItem(key);
       return raw ? JSON.parse(raw) : fallback;
     } catch {
       return fallback;
@@ -11,7 +11,7 @@ export const storage = {
   set(key, value) {
     if (typeof window === 'undefined') return;
     try {
-      window.localStorage.setItem(key, JSON.stringify(value));
+      window.sessionStorage.setItem(key, JSON.stringify(value));
     } catch {
       /* quota / private mode — ignore */
     }
@@ -19,7 +19,7 @@ export const storage = {
   remove(key) {
     if (typeof window === 'undefined') return;
     try {
-      window.localStorage.removeItem(key);
+      window.sessionStorage.removeItem(key);
     } catch {
       /* ignore */
     }
