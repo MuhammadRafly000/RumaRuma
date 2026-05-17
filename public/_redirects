@@ -1,0 +1,3 @@
+# Netlify SPA fallback — supaya React Router tidak 404 saat user refresh
+# halaman seperti /produk/xxx atau /kategori/xxx.
+/*    /index.html   200
