@@ -11,7 +11,10 @@ export default function ProfilePage() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { orders } = useOrderStore();
-  const [activeTab, setActiveTab] = useState('orders'); // 'orders' or 'settings'
+  const [activeTab, setActiveTab] = useState(() => {
+    // If we have user role info, admin should default to settings
+    return user?.role === 'admin' ? 'settings' : 'orders';
+  }); // 'orders' or 'settings'
 
   if (!user) {
     navigate('/login');
@@ -51,18 +54,20 @@ export default function ProfilePage() {
           </div>
 
           <nav className="flex flex-col gap-2 rounded-3xl bg-white p-4 shadow-soft">
-            <button
-              onClick={() => setActiveTab('orders')}
-              className={cn(
-                'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
-                activeTab === 'orders'
-                  ? 'bg-sage-50 text-sage-700'
-                  : 'text-charcoal-600 hover:bg-cream-100',
-              )}
-            >
-              <Package className="h-5 w-5" />
-              Pesanan Saya
-            </button>
+            {user?.role !== 'admin' && (
+              <button
+                onClick={() => setActiveTab('orders')}
+                className={cn(
+                  'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
+                  activeTab === 'orders'
+                    ? 'bg-sage-50 text-sage-700'
+                    : 'text-charcoal-600 hover:bg-cream-100',
+                )}
+              >
+                <Package className="h-5 w-5" />
+                Pesanan Saya
+              </button>
+            )}
             <button
               onClick={() => setActiveTab('settings')}
               className={cn(
