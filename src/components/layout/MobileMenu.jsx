@@ -42,7 +42,7 @@ export default function MobileMenu({ open, onClose }) {
       }
     >
       <nav className="flex flex-col gap-1">
-        {NAV_LINKS.map((link) => (
+        {NAV_LINKS.slice(0, 6).map((link) => (
           <NavLink
             key={link.to}
             to={link.to}
@@ -60,6 +60,48 @@ export default function MobileMenu({ open, onClose }) {
             {link.label}
           </NavLink>
         ))}
+
+        <div className="my-2 h-px w-full bg-charcoal-100" />
+        <p className="px-4 py-1 text-xs font-semibold uppercase tracking-wider text-charcoal-400">
+          Lainnya
+        </p>
+
+        <NavLink
+          to="/inspirasi"
+          onClick={onClose}
+          className={({ isActive }) =>
+            cn(
+              'rounded-2xl px-4 py-3 text-sm font-medium transition',
+              isActive ? 'bg-sage-100 text-sage-800' : 'text-charcoal-700 hover:bg-cream-100'
+            )
+          }
+        >
+          Shop the Look
+        </NavLink>
+        <NavLink
+          to="/jurnal"
+          onClick={onClose}
+          className={({ isActive }) =>
+            cn(
+              'rounded-2xl px-4 py-3 text-sm font-medium transition',
+              isActive ? 'bg-sage-100 text-sage-800' : 'text-charcoal-700 hover:bg-cream-100'
+            )
+          }
+        >
+          Jurnal & Artikel
+        </NavLink>
+        <NavLink
+          to="/tentang-kami"
+          onClick={onClose}
+          className={({ isActive }) =>
+            cn(
+              'rounded-2xl px-4 py-3 text-sm font-medium transition',
+              isActive ? 'bg-sage-100 text-sage-800' : 'text-charcoal-700 hover:bg-cream-100'
+            )
+          }
+        >
+          Tentang Kami
+        </NavLink>
       </nav>
 
       <div className="mt-6 grid grid-cols-2 gap-3">

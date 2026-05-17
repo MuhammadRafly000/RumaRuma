@@ -59,13 +59,13 @@ export default function NewsletterSection() {
               placeholder="email@kamu.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 bg-transparent text-sm text-white placeholder:text-white/50 focus:outline-none"
+              className="min-w-0 flex-1 bg-transparent text-sm text-white placeholder:text-white/50 focus:outline-none"
             />
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-charcoal-800 transition hover:bg-cream-100"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-charcoal-800 transition hover:bg-cream-100 sm:px-5"
             >
-              Berlangganan <ArrowRight className="h-4 w-4" />
+              Berlangganan <ArrowRight className="hidden h-4 w-4 sm:block" />
             </button>
           </form>
         </div>
