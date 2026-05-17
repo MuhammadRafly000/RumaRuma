@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button.jsx';
 import { useWishlistStore } from '@/context/WishlistContext';
 import { useCartStore } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
-import { products } from '@/data/products';
+import { useProductStore } from '@/context/ProductContext';
 
 export default function WishlistPage() {
   const ids = useWishlistStore((s) => s.ids);
@@ -16,9 +16,10 @@ export default function WishlistPage() {
   const openCart = useCartStore((s) => s.openCart);
   const toast = useToast();
 
+  const products = useProductStore((state) => state.products);
   const wishlist = useMemo(
     () => products.filter((p) => ids.includes(p.id)),
-    [ids],
+    [ids, products],
   );
 
   const addAllToCart = () => {

@@ -23,6 +23,14 @@ export const useOrderStore = create(
 
       getOrder: (id) => get().orders.find((o) => o.id === id),
       
+      updateOrderStatus: (id, newStatus) => {
+        set((state) => ({
+          orders: state.orders.map((o) => 
+            o.id === id ? { ...o, status: newStatus } : o
+          ),
+        }));
+      },
+
       clearOrders: () => set({ orders: [] }),
     }),
     {

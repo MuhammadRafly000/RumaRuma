@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Plus, X, ShoppingBag } from 'lucide-react';
 import { inspirations } from '@/data/inspirations';
-import { products } from '@/data/products';
+import { useProductStore } from '@/context/ProductContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import cn from '@/utils/classNames';
 
 export default function InspirationPage() {
   const [activeHotspot, setActiveHotspot] = useState(null);
 
+  const products = useProductStore((state) => state.products);
   const getProduct = (id) => products.find(p => p.id === id);
 
   return (

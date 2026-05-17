@@ -16,6 +16,12 @@ import JournalPage from '@/pages/JournalPage.jsx';
 import JournalDetail from '@/pages/JournalDetail.jsx';
 import AboutPage from '@/pages/AboutPage.jsx';
 
+import AdminLayout from '@/layouts/AdminLayout.jsx';
+import AdminDashboard from '@/pages/admin/AdminDashboard.jsx';
+import AdminProducts from '@/pages/admin/AdminProducts.jsx';
+import AdminProductForm from '@/pages/admin/AdminProductForm.jsx';
+import AdminOrders from '@/pages/admin/AdminOrders.jsx';
+
 export default function AppRouter() {
   return (
     <Routes>
@@ -36,8 +42,18 @@ export default function AppRouter() {
         <Route path="/jurnal/:slug" element={<JournalDetail />} />
         <Route path="/tentang-kami" element={<AboutPage />} />
         <Route path="/404" element={<NotFoundPage />} />
-        <Route path="*" element={<Navigate to="/404" replace />} />
       </Route>
+
+      {/* Admin Routes */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="produk" element={<AdminProducts />} />
+        <Route path="produk/baru" element={<AdminProductForm />} />
+        <Route path="produk/edit/:id" element={<AdminProductForm />} />
+        <Route path="pesanan" element={<AdminOrders />} />
+      </Route>
+
+      <Route path="*" element={<Navigate to="/404" replace />} />
     </Routes>
   );
 }
