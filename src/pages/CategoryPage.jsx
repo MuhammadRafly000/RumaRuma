@@ -7,6 +7,7 @@ import FilterSidebar from '@/components/product/FilterSidebar.jsx';
 import SortDropdown from '@/components/product/SortDropdown.jsx';
 import Drawer from '@/components/ui/Drawer.jsx';
 import Button from '@/components/ui/Button.jsx';
+import SEO from '@/components/ui/SEO.jsx';
 import {
   getAllProducts,
   getCategoryBySlug,
@@ -36,9 +37,12 @@ export default function CategoryPage() {
   const [layout, setLayout] = useState('grid');
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [category, setCategory] = useState(null);
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE = 12;
 
   useEffect(() => {
     setFilters(initialFilters());
+    setPage(1);
     let active = true;
     setLoading(true);
     const loader = slug ? getProductsByCategory(slug) : getAllProducts();
@@ -81,10 +85,23 @@ export default function CategoryPage() {
       list = list.filter((p) => p.rating >= filters.minRating);
     if (filters.onlyPromo)
       list = list.filter((p) => p.originalPrice && p.originalPrice > p.price);
+    
+    setPage(1); // Reset page when filters/sort/search change
     return sortProducts(list, sort);
   }, [products, filters, sort, queryParam]);
 
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const paginatedProducts = filtered.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
+
   return (
+    <>
+    <SEO 
+      title={queryParam ? `Pencarian: ${queryParam}` : category?.name || 'Semua Produk'} 
+      description={category?.description || 'Telusuri koleksi pecah belah dan home living terkurasi dari pengrajin lokal terbaik.'}
+    />
     <div className="container-page py-8 lg:py-12">
       <nav className="mb-4 flex flex-wrap items-center gap-1 text-xs text-charcoal-400">
         <Link to="/" className="hover:text-sage-700">
@@ -227,7 +244,7 @@ export default function CategoryPage() {
             )}
           </div>
           <ProductGrid
-            products={filtered}
+            products={paginatedProducts}
             loading={loading}
             layout={layout}
             emptyAction={
@@ -236,6 +253,30 @@ export default function CategoryPage() {
               </Button>
             }
           />
+          
+          {totalPages > 1 && (
+            <div className="mt-12 flex items-center justify-center gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+              >
+                Sebelumnya
+              </Button>
+              <div className="flex items-center gap-1 text-sm text-charcoal-600">
+                <span className="font-semibold text-charcoal-900">{page}</span>
+                <span>/</span>
+                <span>{totalPages}</span>
+              </div>
+              <Button
+                variant="outline"
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+              >
+                Selanjutnya
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -268,5 +309,6 @@ export default function CategoryPage() {
         />
       </Drawer>
     </div>
+    </>
   );
 }

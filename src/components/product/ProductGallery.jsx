@@ -64,7 +64,7 @@ export default function ProductGallery({ images = [], alt = '' }) {
             )}
             aria-label={`Lihat gambar ${i + 1}`}
           >
-            <img src={src} alt="" className="h-full w-full object-cover" />
+            <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
           </button>
         ))}
       </div>

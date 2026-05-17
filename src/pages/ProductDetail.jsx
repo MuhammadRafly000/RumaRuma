@@ -8,6 +8,7 @@ import ProductReviews from '@/components/product/ProductReviews.jsx';
 import EmptyState from '@/components/ui/EmptyState.jsx';
 import Skeleton from '@/components/ui/Skeleton.jsx';
 import Button from '@/components/ui/Button.jsx';
+import SEO from '@/components/ui/SEO.jsx';
 import { getProductBySlug, getRecommendations } from '@/services/productService';
 import { findCategory } from '@/data/categories';
 
@@ -77,65 +78,66 @@ export default function ProductDetail() {
   const category = findCategory(product.category);
 
   return (
-    <div className="container-page py-8 lg:py-12">
-      <nav className="mb-6 flex items-center gap-1 text-xs text-charcoal-400">
-        <Link to="/" className="hover:text-sage-700">
-          Beranda
-        </Link>
-        <ChevronRight className="h-3 w-3" />
-        <Link to="/kategori" className="hover:text-sage-700">
-          Semua
-        </Link>
-        {category && (
-          <>
-            <ChevronRight className="h-3 w-3" />
-            <Link to={`/kategori/${category.slug}`} className="hover:text-sage-700">
-              {category.name}
-            </Link>
-          </>
-        )}
-        <ChevronRight className="h-3 w-3" />
-        <span className="line-clamp-1 text-charcoal-700">{product.name}</span>
-      </nav>
-
-      <button
-        type="button"
-        onClick={() => navigate(-1)}
-        className="mb-4 inline-flex items-center gap-2 text-xs text-charcoal-500 hover:text-sage-700"
-      >
-        <ArrowLeft className="h-4 w-4" /> Kembali
-      </button>
-
-      <div className="grid gap-10 lg:grid-cols-2">
-        <ProductGallery images={product.images} alt={product.name} />
-        <ProductInfo product={product} />
-      </div>
-
-      <ProductReviews productId={product.id} rating={product.rating} totalReviews={product.reviews} />
-
-      <section className="mt-16">
-        <div className="mb-6 flex items-end justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sage-700">
-              Mungkin kamu juga suka
-            </p>
-            <h2 className="section-title mt-1">Rekomendasi untukmu</h2>
-          </div>
+    <>
+      <SEO 
+        title={product.name} 
+        description={product.shortDescription || product.description}
+        image={product.images?.[0]}
+      />
+      <div className="container-page py-8 lg:py-12">
+        <nav className="mb-6 flex items-center gap-1 text-xs text-charcoal-400">
+          <Link to="/" className="hover:text-sage-700">Beranda</Link>
+          <ChevronRight className="h-3 w-3" />
+          <Link to="/kategori" className="hover:text-sage-700">Semua</Link>
           {category && (
-            <Link
-              to={`/kategori/${category.slug}`}
-              className="text-sm font-medium text-sage-700 hover:text-sage-800"
-            >
-              Lihat semua {category.name} →
-            </Link>
+            <>
+              <ChevronRight className="h-3 w-3" />
+              <Link to={`/kategori/${category.slug}`} className="hover:text-sage-700">{category.name}</Link>
+            </>
           )}
+          <ChevronRight className="h-3 w-3" />
+          <span className="line-clamp-1 text-charcoal-700">{product.name}</span>
+        </nav>
+
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="mb-4 inline-flex items-center gap-2 text-xs text-charcoal-500 hover:text-sage-700"
+        >
+          <ArrowLeft className="h-4 w-4" /> Kembali
+        </button>
+
+        <div className="grid gap-10 lg:grid-cols-2">
+          <ProductGallery images={product.images} alt={product.name} />
+          <ProductInfo product={product} />
         </div>
-        <ProductGrid
-          products={related}
-          loading={relatedLoading}
-          skeletonCount={4}
-        />
-      </section>
-    </div>
+
+        <ProductReviews productId={product.id} rating={product.rating} totalReviews={product.reviews} />
+
+        <section className="mt-16">
+          <div className="mb-6 flex items-end justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sage-700">
+                Mungkin kamu juga suka
+              </p>
+              <h2 className="section-title mt-1">Rekomendasi untukmu</h2>
+            </div>
+            {category && (
+              <Link
+                to={`/kategori/${category.slug}`}
+                className="text-sm font-medium text-sage-700 hover:text-sage-800"
+              >
+                Lihat semua {category.name} →
+              </Link>
+            )}
+          </div>
+          <ProductGrid
+            products={related}
+            loading={relatedLoading}
+            skeletonCount={4}
+          />
+        </section>
+      </div>
+    </>
   );
 }
