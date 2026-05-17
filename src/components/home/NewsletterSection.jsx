@@ -63,9 +63,11 @@ export default function NewsletterSection() {
             />
             <button
               type="submit"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-charcoal-800 transition hover:bg-cream-100 sm:px-5"
+              aria-label="Berlangganan"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-charcoal-800 transition hover:bg-cream-100 sm:h-auto sm:w-auto sm:gap-2 sm:px-5 sm:py-2.5"
             >
-              Berlangganan <ArrowRight className="hidden h-4 w-4 sm:block" />
+              <span className="hidden text-sm font-semibold sm:inline">Berlangganan</span>
+              <ArrowRight className="h-4.5 w-4.5 sm:h-4 sm:w-4" />
             </button>
           </form>
         </div>
