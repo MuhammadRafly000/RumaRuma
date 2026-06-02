@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Package, User, LogOut, ChevronRight, CheckCircle2, Clock, Truck } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useOrderStore } from '@/context/OrderContext';
@@ -16,9 +16,11 @@ export default function ProfilePage() {
     return user?.role === 'admin' ? 'settings' : 'orders';
   }); // 'orders' or 'settings'
 
+  // This route is already wrapped in <ProtectedRoute>, but keep a declarative
+  // guard as defense-in-depth. Using <Navigate> avoids calling navigate()
+  // during render (which triggers a React state-update-in-render warning).
   if (!user) {
-    navigate('/login');
-    return null;
+    return <Navigate to="/login" replace />;
   }
 
   const handleLogout = () => {

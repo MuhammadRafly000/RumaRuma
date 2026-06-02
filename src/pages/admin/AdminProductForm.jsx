@@ -4,15 +4,25 @@ import { ArrowLeft, ChevronDown, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProductStore } from '@/context/ProductContext';
 import { useToast } from '@/context/ToastContext';
+import { categories as CATALOG_CATEGORIES } from '@/data/categories';
 import Input from '@/components/ui/Input.jsx';
 import Button from '@/components/ui/Button.jsx';
 import cn from '@/utils/classNames';
+
+// Single source of truth — derive the dropdown options from the real catalog
+// categories so admin-created products always land in a category that the
+// storefront filters recognise.
+const CATEGORY_OPTIONS = CATALOG_CATEGORIES.map((c) => ({
+  value: c.slug,
+  label: c.name,
+}));
+const DEFAULT_CATEGORY = CATEGORY_OPTIONS[0]?.value || 'dinnerware';
 
 export default function AdminProductForm() {
   const { id } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
-  
+
   const addProduct = useProductStore((s) => s.addProduct);
   const updateProduct = useProductStore((s) => s.updateProduct);
   const getProductById = useProductStore((s) => s.getProductById);
@@ -22,7 +32,7 @@ export default function AdminProductForm() {
   const [form, setForm] = useState({
     name: '',
     price: '',
-    category: 'dekorasi',
+    category: DEFAULT_CATEGORY,
     material: '',
     description: '',
     images: '',
@@ -169,14 +179,10 @@ function CategoryDropdown({ value, onChange }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const categories = [
-    { value: 'pecah-belah', label: 'Pecah Belah' },
-    { value: 'kitchenware', label: 'Kitchenware' },
-    { value: 'dekorasi', label: 'Dekorasi' },
-    { value: 'storage', label: 'Storage' },
-  ];
+  const categories = CATEGORY_OPTIONS;
 
-  const currentCategory = categories.find(c => c.value === value) || categories[2];
+  const currentCategory =
+    categories.find((c) => c.value === value) || categories[0];
 
   useEffect(() => {
     const handleClickOutside = (event) => {

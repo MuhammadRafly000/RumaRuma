@@ -3,9 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
 import cn from '@/utils/classNames';
 
+const PLACEHOLDER =
+  'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22600%22%3E%3Crect fill=%22%23f3ede3%22 width=%22600%22 height=%22600%22/%3E%3C/svg%3E';
+
 export default function ProductGallery({ images = [], alt = '' }) {
   const [active, setActive] = useState(0);
-  const total = images.length;
+  // Fall back to a neutral placeholder so the gallery never renders a broken
+  // image or "1 / 0" counter for a product that has no images yet.
+  const safeImages = images.length > 0 ? images : [PLACEHOLDER];
+  const total = safeImages.length;
   const next = () => setActive((i) => (i + 1) % total);
   const prev = () => setActive((i) => (i - 1 + total) % total);
 
@@ -14,8 +20,8 @@ export default function ProductGallery({ images = [], alt = '' }) {
       <div className="relative flex-1 overflow-hidden rounded-3xl bg-cream-100">
         <AnimatePresence mode="wait" initial={false}>
           <motion.img
-            key={images[active]}
-            src={images[active]}
+            key={safeImages[active]}
+            src={safeImages[active]}
             alt={alt}
             initial={{ opacity: 0, scale: 1.02 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -51,7 +57,7 @@ export default function ProductGallery({ images = [], alt = '' }) {
       </div>
 
       <div className="flex shrink-0 gap-3 lg:max-w-[88px] lg:flex-col">
-        {images.map((src, i) => (
+        {safeImages.map((src, i) => (
           <button
             key={src}
             type="button"

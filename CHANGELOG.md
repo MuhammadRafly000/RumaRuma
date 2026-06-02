@@ -6,6 +6,42 @@ and this project adheres to [Semantic Versioning](https://semver.org).
 
 ---
 
+## [1.0.1] — 2026-06-02
+
+### Fixed (full-app evaluation pass)
+
+- **Admin → catalog consistency**: `AdminProductForm` category dropdown now
+  derives its options from the real catalog categories (`dinnerware`,
+  `glassware`, `kitchenware`, `decor`, `storage`, `textile`). Previously it
+  offered non-existent slugs (`pecah-belah`, `dekorasi`) so admin-created
+  products landed in a phantom category and never appeared in storefront
+  filters.
+- **New-product crash**: `addProduct` now seeds complete safe defaults
+  (specs, stock, sold, brand, etc.) and `ProductInfo` guards `specs`/`stock`,
+  so opening the detail page (and its "Spesifikasi" tab) of an
+  admin-created product no longer throws.
+- **Invalid DOM nesting**: `ProductCard` no longer renders an `<a>` inside
+  another `<a>` (image wrapper is now a `<div>`; the detail/quick-add links
+  are siblings). Fixes a React `validateDOMNesting` warning and unpredictable
+  click behavior.
+- **Stale catalog after edits**: `ProductContext` persistence now has a
+  `version` + `migrate`, so editing `src/data/products.js` re-seeds returning
+  visitors instead of showing a stale localStorage snapshot.
+- **ProfilePage**: replaced a render-time `navigate()` call with `<Navigate>`
+  (no more state-update-in-render warning).
+- **Security**: upgraded Swiper to v12 to clear a critical prototype-pollution
+  advisory (GHSA-hmx5-qpq5-p643). Remaining `npm audit` items are
+  dev-server-only (esbuild) and do not affect the production build.
+
+### Added
+
+- `.eslintrc.cjs` — `npm run lint` now works (was failing with "no config").
+- `@tailwindcss/typography` — proper prose styling on About & Journal pages.
+- Empty-state copy on the product specs tab when a product has no specs.
+- Graceful image placeholder in `ProductGallery` when a product has no images.
+
+---
+
 ## [1.0.0] — 2026-06-02
 
 ### Initial public release

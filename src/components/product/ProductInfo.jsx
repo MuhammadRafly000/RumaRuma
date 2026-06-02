@@ -42,6 +42,11 @@ export default function ProductInfo({ product }) {
 
   const subtotal = useMemo(() => qty * product.price, [qty, product.price]);
 
+  // Defensive fallbacks — admin-created products may not have every field.
+  const stock = Number.isFinite(product.stock) ? product.stock : 99;
+  const specs = Array.isArray(product.specs) ? product.specs : [];
+  const rating = Number.isFinite(product.rating) ? product.rating : 0;
+
   const handleAdd = () => {
     addItem(product, qty);
     toast.success('Ditambahkan ke keranjang', `${qty}× ${product.name}`);
@@ -98,16 +103,16 @@ export default function ProductInfo({ product }) {
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-charcoal-500">
         <span className="inline-flex items-center gap-1.5">
-          <RatingStars value={product.rating} size={14} />
+          <RatingStars value={rating} size={14} />
           <span className="font-semibold text-charcoal-700">
-            {product.rating.toFixed(1)}
+            {rating.toFixed(1)}
           </span>
           <span>({formatNumber(product.reviews)} ulasan)</span>
         </span>
         <span className="hidden sm:inline">·</span>
         <span>{formatNumber(product.sold)} terjual</span>
         <span className="hidden sm:inline">·</span>
-        <span className="text-sage-700">Stok {product.stock}</span>
+        <span className="text-sage-700">Stok {stock}</span>
       </div>
 
       <div className="rounded-3xl bg-cream-100 p-5">
@@ -144,9 +149,9 @@ export default function ProductInfo({ product }) {
         <div>
           <label className="block text-xs font-medium text-charcoal-500">Jumlah</label>
           <div className="mt-1.5 flex items-center gap-3">
-            <QuantityStepper value={qty} onChange={setQty} max={product.stock} />
+            <QuantityStepper value={qty} onChange={setQty} max={stock} />
             <span className="text-xs text-charcoal-400">
-              Maks {product.stock} pcs
+              Maks {stock} pcs
             </span>
           </div>
         </div>
@@ -226,9 +231,14 @@ export default function ProductInfo({ product }) {
           {activeTab === 'description' && (
             <p className="text-pretty">{product.description}</p>
           )}
-          {activeTab === 'specs' && (
+          {activeTab === 'specs' && specs.length === 0 && (
+            <p className="text-sm text-charcoal-400">
+              Belum ada spesifikasi untuk produk ini.
+            </p>
+          )}
+          {activeTab === 'specs' && specs.length > 0 && (
             <dl className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              {product.specs.map((s) => (
+              {specs.map((s) => (
                 <div
                   key={s.label}
                   className="flex items-center justify-between rounded-2xl bg-cream-50 px-4 py-2"

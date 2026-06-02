@@ -1,8 +1,9 @@
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import FloatingDecor from '@/components/ui/FloatingDecor.jsx';
 import { heroBanners, promoStrips } from '@/data/banners';
 import cn from '@/utils/classNames';
@@ -13,6 +14,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
 export default function HeroBanner() {
+  // Custom navigation buttons (Lucide icons) wired to Swiper via refs.
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
   // Mouse parallax
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
@@ -38,13 +43,21 @@ export default function HeroBanner() {
     >
       <FloatingDecor />
       <div className="container-page relative pb-16 pt-8 lg:pb-24 lg:pt-12">
+        {/* Relative wrapper so the custom arrow buttons can sit OUTSIDE the
+            Swiper's overflow-hidden box and never get clipped. */}
+        <div className="relative">
         <Swiper
           modules={[Autoplay, Navigation, Pagination, EffectFade]}
           effect="fade"
           fadeEffect={{ crossFade: true }}
           autoplay={{ delay: 5500, disableOnInteraction: false }}
           loop
-          navigation
+          navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
+          onBeforeInit={(swiper) => {
+            // Refs are null on first render; assign them before Swiper inits.
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+          }}
           pagination={{ clickable: true }}
           className="overflow-hidden rounded-[2rem]"
         >
@@ -125,6 +138,26 @@ export default function HeroBanner() {
             </SwiperSlide>
           ))}
         </Swiper>
+
+          {/* Custom navigation — Lucide chevrons, full design control,
+              positioned over the carousel and never clipped. */}
+          <button
+            ref={prevRef}
+            type="button"
+            aria-label="Banner sebelumnya"
+            className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-charcoal-700 shadow-elevated backdrop-blur transition hover:scale-105 hover:bg-white active:scale-95 sm:left-4 lg:h-12 lg:w-12"
+          >
+            <ChevronLeft className="h-5 w-5" strokeWidth={2.25} />
+          </button>
+          <button
+            ref={nextRef}
+            type="button"
+            aria-label="Banner berikutnya"
+            className="absolute right-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-charcoal-700 shadow-elevated backdrop-blur transition hover:scale-105 hover:bg-white active:scale-95 sm:right-4 lg:h-12 lg:w-12"
+          >
+            <ChevronRight className="h-5 w-5" strokeWidth={2.25} />
+          </button>
+        </div>
 
         {/* Promo strip */}
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

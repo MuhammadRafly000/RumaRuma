@@ -95,25 +95,35 @@ export default function ProductCard({ product, className, layout = 'grid' }) {
         className,
       )}
     >
-      <Link to={`/produk/${product.slug}`} className="relative block aspect-square overflow-hidden bg-cream-100">
-        <img
-          src={product.images[0]}
-          alt={product.name}
-          loading="lazy"
-          onError={(e) => {
-            e.target.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f5f1ed%22 width=%22400%22 height=%22400%22/%3E%3C/svg%3E';
-          }}
-          className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      {/* Image area is a plain relative container — NOT an anchor — so the
+          action buttons / detail link below are not illegally nested inside
+          another <a> (invalid DOM + unpredictable clicks). Only the <img> is
+          wrapped in a Link. */}
+      <div className="relative aspect-square overflow-hidden bg-cream-100">
+        <Link
+          to={`/produk/${product.slug}`}
+          aria-label={product.name}
+          className="block h-full w-full"
+        >
+          <img
+            src={product.images?.[0]}
+            alt={product.name}
+            loading="lazy"
+            onError={(e) => {
+              e.target.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f5f1ed%22 width=%22400%22 height=%22400%22/%3E%3C/svg%3E';
+            }}
+            className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-charcoal-800/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        </Link>
 
-        <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
-          {product.badge && (
+        {product.badge && (
+          <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
             <Badge tone={product.isBestseller ? 'sage' : product.isNew ? 'dark' : 'promo'}>
               {product.badge}
             </Badge>
-          )}
-        </div>
+          </div>
+        )}
 
         <button
           type="button"
@@ -139,14 +149,13 @@ export default function ProductCard({ product, className, layout = 'grid' }) {
           </button>
           <Link
             to={`/produk/${product.slug}`}
-            onClick={(e) => e.stopPropagation()}
             className="grid h-10 w-10 place-items-center rounded-full bg-white text-charcoal-700 shadow-soft transition hover:bg-cream-100"
             aria-label="Lihat detail"
           >
             <Eye className="h-4 w-4" />
           </Link>
         </div>
-      </Link>
+      </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         <Link to={`/produk/${product.slug}`} className="min-w-0">
@@ -161,7 +170,7 @@ export default function ProductCard({ product, className, layout = 'grid' }) {
         <div className="mt-auto flex items-center justify-between text-[11px] text-charcoal-400">
           <span className="inline-flex items-center gap-1">
             <RatingStars value={product.rating} size={12} />
-            <span>{product.rating.toFixed(1)}</span>
+            <span>{(product.rating ?? 0).toFixed(1)}</span>
           </span>
           <span>{formatCompact(product.sold)} terjual</span>
         </div>
