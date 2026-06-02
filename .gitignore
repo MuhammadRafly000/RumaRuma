@@ -33,3 +33,27 @@ pnpm-debug.log*
 
 # OS
 Thumbs.db
+
+# Seller-only — do NOT publish or include in buyer ZIP
+# (kept local for marketing & packaging workflow)
+/marketing/cover/*
+!/marketing/cover/README.md
+/marketing/screenshots/*
+!/marketing/screenshots/README.md
+/marketing/video/*
+!/marketing/video/README.md
+
+# Build artifacts of the package script
+/RumaRuma-Template-*.zip
+/RumaRuma-Template-*/
+preview.log
+make-package.sh
+make-package.ps1
+
+# Seller-only utility scripts (kept out of buyer ZIP)
+# Comment these out if you want to commit them to a private dev repo.
+analyze.js
+analyze_products.js
+analyze_products.mjs
+replace_images.cjs
+update_products.cjs

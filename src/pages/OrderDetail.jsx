@@ -124,7 +124,7 @@ export default function OrderDetail() {
                   const Icon = step.icon;
 
                   return (
-                    <div key={i} className="flex flex-col items-center group w-24">
+                    <div key={step.label} className="flex flex-col items-center group w-24">
                       {/* Icon Circle */}
                       <motion.div 
                         initial={{ scale: 0.8, opacity: 0 }}
@@ -192,8 +192,8 @@ export default function OrderDetail() {
           <section className="rounded-3xl bg-white p-6 shadow-soft sm:p-8">
             <h3 className="mb-6 font-semibold text-charcoal-800">Barang yang Dibeli</h3>
             <div className="space-y-6">
-              {order.items.map((item, i) => (
-                <div key={i} className="flex gap-4">
+              {order.items.map((item) => (
+                <div key={item.id} className="flex gap-4">
                   <Link to={`/produk/${item.slug}`} className="shrink-0">
                     <img src={item.image} alt="" className="h-20 w-20 rounded-2xl object-cover shadow-sm" />
                   </Link>

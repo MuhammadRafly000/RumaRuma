@@ -35,11 +35,19 @@ export default function FeaturedProducts() {
     return () => clearTimeout(timer);
   }, [tab]);
 
+  // Defense-in-depth: the three tabs are mutually exclusive in the UI, so we
+  // enforce that here too. A product flagged with BOTH isNew and isBestseller
+  // would otherwise show up in two tabs, which confuses customers. The
+  // visible badge ("Best Seller" outranks "New") wins as source of truth, so
+  // "Baru Datang" intentionally excludes bestsellers even if isNew is true.
   const filtered = (() => {
     if (tab === 'bestseller') return products.filter((p) => p.isBestseller);
-    if (tab === 'new') return products.filter((p) => p.isNew);
+    if (tab === 'new')
+      return products.filter((p) => p.isNew && !p.isBestseller);
     if (tab === 'promo')
-      return products.filter((p) => p.originalPrice && p.originalPrice > p.price);
+      return products.filter(
+        (p) => p.originalPrice && p.originalPrice > p.price,
+      );
     return products;
   })().slice(0, 8);
 

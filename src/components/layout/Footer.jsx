@@ -4,6 +4,7 @@ import Logo from './Logo.jsx';
 import Input from '@/components/ui/Input.jsx';
 import Button from '@/components/ui/Button.jsx';
 import { useToast } from '@/context/ToastContext';
+import { BRAND } from '@/config/constants';
 import { useState } from 'react';
 
 const sections = [
@@ -90,7 +91,7 @@ export default function Footer() {
           </form>
           <div className="flex items-center gap-3 text-charcoal-500">
             <a
-              href="https://instagram.com"
+              href={BRAND.socials.instagram}
               target="_blank"
               rel="noreferrer"
               className="rounded-full border border-charcoal-100 p-2 transition hover:border-sage-300 hover:text-sage-600"
@@ -99,7 +100,7 @@ export default function Footer() {
               <Instagram className="h-4 w-4" />
             </a>
             <a
-              href="https://facebook.com"
+              href={BRAND.socials.facebook}
               target="_blank"
               rel="noreferrer"
               className="rounded-full border border-charcoal-100 p-2 transition hover:border-sage-300 hover:text-sage-600"
@@ -108,7 +109,7 @@ export default function Footer() {
               <Facebook className="h-4 w-4" />
             </a>
             <a
-              href="https://twitter.com"
+              href={BRAND.socials.twitter}
               target="_blank"
               rel="noreferrer"
               className="rounded-full border border-charcoal-100 p-2 transition hover:border-sage-300 hover:text-sage-600"
@@ -148,29 +149,29 @@ export default function Footer() {
           <div className="flex items-start gap-2 text-sm text-charcoal-600">
             <MapPin className="mt-0.5 h-4 w-4 text-sage-600" />
             <span>
-              RumaRuma Studio,
+              {BRAND.name} Studio,
               <br />
-              Jl. Kemang Selatan 12, Jakarta
+              {BRAND.address}
             </span>
           </div>
           <a
-            href="tel:+622112345678"
+            href={BRAND.phoneHref}
             className="flex items-center gap-2 text-sm text-charcoal-600 hover:text-sage-600"
           >
-            <Phone className="h-4 w-4 text-sage-600" /> +62 21 1234 5678
+            <Phone className="h-4 w-4 text-sage-600" /> {BRAND.phoneDisplay}
           </a>
           <a
-            href="mailto:halo@rumaruma.id"
+            href={BRAND.emailHref}
             className="flex items-center gap-2 text-sm text-charcoal-600 hover:text-sage-600"
           >
-            <Mail className="h-4 w-4 text-sage-600" /> halo@rumaruma.id
+            <Mail className="h-4 w-4 text-sage-600" /> {BRAND.emailDisplay}
           </a>
         </div>
       </div>
 
       <div className="border-t border-charcoal-100">
         <div className="container-page flex flex-col items-center justify-between gap-3 py-5 text-xs text-charcoal-400 sm:flex-row">
-          <p>© {new Date().getFullYear()} RumaRuma. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {BRAND.name}. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <Link to="/kategori" className="hover:text-charcoal-700">
               Syarat & Ketentuan

@@ -85,6 +85,7 @@ export default function RegisterPage() {
             <Input
               label="Nama lengkap"
               name="name"
+              autoComplete="name"
               placeholder="Nama panggilan kamu"
               leftIcon={User}
               value={form.name}
@@ -95,6 +96,7 @@ export default function RegisterPage() {
               label="Email"
               name="email"
               type="email"
+              autoComplete="email"
               placeholder="kamu@email.com"
               leftIcon={Mail}
               value={form.email}
@@ -105,6 +107,7 @@ export default function RegisterPage() {
               label="Password"
               name="password"
               type={showPassword ? 'text' : 'password'}
+              autoComplete="new-password"
               placeholder="Minimal 6 karakter"
               leftIcon={Lock}
               rightIcon={showPassword ? EyeOff : Eye}

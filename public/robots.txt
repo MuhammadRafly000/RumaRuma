@@ -6,4 +6,5 @@ Disallow: /wishlist
 Disallow: /login
 Disallow: /register
 
-Sitemap: https://rumaruma.id/sitemap.xml
+# Replace with your real domain before deploying to production
+Sitemap: https://example.com/sitemap.xml

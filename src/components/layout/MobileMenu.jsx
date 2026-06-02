@@ -1,13 +1,35 @@
 import { Link, NavLink } from 'react-router-dom';
-import { Heart, LogIn, Mail, MapPin, ShoppingBag, User } from 'lucide-react';
+import {
+  Heart,
+  HelpCircle,
+  LogIn,
+  Mail,
+  MapPin,
+  ShoppingBag,
+  Store,
+  Truck,
+  User,
+} from 'lucide-react';
 import Drawer from '@/components/ui/Drawer.jsx';
 import Logo from './Logo.jsx';
-import { NAV_LINKS, DEFAULT_LOCATION } from '@/config/constants';
+import { NAV_LINKS, DEFAULT_LOCATION, BRAND } from '@/config/constants';
 import { useAuth } from '@/context/AuthContext';
 import cn from '@/utils/classNames';
 
-export default function MobileMenu({ open, onClose }) {
+export default function MobileMenu({
+  open,
+  onClose,
+  onOpenHelp,
+  onOpenTrack,
+  onOpenReseller,
+}) {
   const { isAuthenticated, user, logout } = useAuth();
+
+  const fire = (handler) => () => {
+    onClose?.();
+    // Slight delay so the drawer close animation completes before modal opens.
+    setTimeout(() => handler?.(), 200);
+  };
   return (
     <Drawer
       open={open}
@@ -161,11 +183,45 @@ export default function MobileMenu({ open, onClose }) {
         </div>
       </Link>
 
+      {/* Quick actions — mirror promo strip on desktop */}
+      <div className="mt-6 grid grid-cols-3 gap-2">
+        <button
+          type="button"
+          onClick={fire(onOpenHelp)}
+          className="flex flex-col items-start gap-1.5 rounded-2xl border border-charcoal-100 p-3 text-left transition hover:border-sage-300 hover:bg-sage-50"
+        >
+          <HelpCircle className="h-4 w-4 text-sage-600" />
+          <span className="text-[11px] font-semibold leading-tight text-charcoal-800">
+            Bantuan
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={fire(onOpenTrack)}
+          className="flex flex-col items-start gap-1.5 rounded-2xl border border-charcoal-100 p-3 text-left transition hover:border-sage-300 hover:bg-sage-50"
+        >
+          <Truck className="h-4 w-4 text-sage-600" />
+          <span className="text-[11px] font-semibold leading-tight text-charcoal-800">
+            Cek resi
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={fire(onOpenReseller)}
+          className="flex flex-col items-start gap-1.5 rounded-2xl border border-charcoal-100 p-3 text-left transition hover:border-sage-300 hover:bg-sage-50"
+        >
+          <Store className="h-4 w-4 text-sage-600" />
+          <span className="text-[11px] font-semibold leading-tight text-charcoal-800">
+            Reseller
+          </span>
+        </button>
+      </div>
+
       <a
-        href="mailto:halo@rumaruma.id"
-        className="mt-6 flex items-center gap-2 rounded-2xl border border-charcoal-100 px-4 py-3 text-xs text-charcoal-600"
+        href={BRAND.emailHref}
+        className="mt-4 flex items-center gap-2 rounded-2xl border border-charcoal-100 px-4 py-3 text-xs text-charcoal-600"
       >
-        <Mail className="h-4 w-4" /> halo@rumaruma.id
+        <Mail className="h-4 w-4" /> {BRAND.emailDisplay}
       </a>
     </Drawer>
   );

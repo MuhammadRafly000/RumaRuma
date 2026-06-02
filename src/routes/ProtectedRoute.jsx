@@ -15,7 +15,10 @@ export default function ProtectedRoute({ children, requireAdmin = false }) {
     if (status === 'loading') return;
 
     if (!isAuthenticated) {
-      navigate('/login', { state: { from: location }, replace: true });
+      // Pass `from` as a plain string so LoginPage doesn't need to handle
+      // both string and Location object shapes (matches Cart/Checkout pattern).
+      const from = location.pathname + (location.search || '');
+      navigate('/login', { state: { from }, replace: true });
       return;
     }
 

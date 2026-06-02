@@ -141,6 +141,7 @@ export default function CheckoutPage() {
               <Input
                 label="Nama Lengkap"
                 name="fullName"
+                autoComplete="name"
                 value={form.fullName}
                 onChange={handle('fullName')}
                 required
@@ -148,7 +149,11 @@ export default function CheckoutPage() {
               <Input
                 label="Nomor HP"
                 name="phone"
+                type="tel"
                 inputMode="tel"
+                autoComplete="tel"
+                pattern="[0-9+\s()-]{8,}"
+                placeholder="08123456789"
                 value={form.phone}
                 onChange={handle('phone')}
                 required
@@ -157,6 +162,7 @@ export default function CheckoutPage() {
                 <Input
                   label="Alamat Lengkap"
                   name="address"
+                  autoComplete="street-address"
                   value={form.address}
                   onChange={handle('address')}
                   required
@@ -165,6 +171,7 @@ export default function CheckoutPage() {
               <Input
                 label="Kota"
                 name="city"
+                autoComplete="address-level2"
                 value={form.city}
                 onChange={handle('city')}
                 required
@@ -172,6 +179,9 @@ export default function CheckoutPage() {
               <Input
                 label="Kode Pos"
                 name="postal"
+                inputMode="numeric"
+                autoComplete="postal-code"
+                pattern="[0-9]{4,6}"
                 value={form.postal}
                 onChange={handle('postal')}
               />

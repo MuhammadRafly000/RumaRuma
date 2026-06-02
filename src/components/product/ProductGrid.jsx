@@ -1,9 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from './ProductCard.jsx';
 import ProductSkeleton from './ProductSkeleton.jsx';
 import EmptyState from '@/components/ui/EmptyState.jsx';
 import { PackageSearch } from 'lucide-react';
-import { stagger, fadeUp } from '@/animations/variants';
 import cn from '@/utils/classNames';
 
 export default function ProductGrid({
@@ -42,19 +41,41 @@ export default function ProductGrid({
     );
   }
 
+  /**
+   * Each card runs its own enter/exit animation rather than relying on a
+   * parent `whileInView` stagger. The previous approach used
+   * `once: true` on the parent, which meant new cards mounted after the
+   * initial trigger (e.g. after a filter change) inherited the parent's
+   * "show" variant state but never actually fired their own transition —
+   * leaving them stuck at `opacity: 0` and producing invisible gaps in
+   * the grid. AnimatePresence + per-item `initial`/`animate` keeps each
+   * card self-contained and visible regardless of when it mounts.
+   */
   return (
-    <motion.div
-      variants={stagger(0.05, 0.06)}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.05 }}
-      className={cn(gridClass, className)}
-    >
-      {products.map((p) => (
-        <motion.div key={p.id} variants={fadeUp}>
-          <ProductCard product={p} layout={layout} />
-        </motion.div>
-      ))}
-    </motion.div>
+    <div className={cn(gridClass, className)}>
+      <AnimatePresence mode="popLayout">
+        {products.map((p, i) => (
+          <motion.div
+            key={p.id}
+            layout
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8, scale: 0.96 }}
+            transition={{
+              duration: 0.35,
+              delay: Math.min(i * 0.035, 0.28),
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            // h-full so each card stretches to the row's tallest height
+            // (grid default align-items: stretch). Without this the motion
+            // wrapper is auto-sized and cards in the same row end up at
+            // different visual heights when content length varies.
+            className="h-full"
+          >
+            <ProductCard product={p} layout={layout} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
   );
 }

@@ -149,9 +149,9 @@ export default function ProfilePage() {
                         <div className="flex flex-wrap items-center justify-between gap-6">
                           <div className="flex flex-1 items-center gap-4">
                             <div className="flex -space-x-4">
-                              {order.items.slice(0, 3).map((item, i) => (
+                              {order.items.slice(0, 3).map((item) => (
                                 <img
-                                  key={i}
+                                  key={item.id}
                                   src={item.image}
                                   alt=""
                                   className="h-16 w-16 rounded-2xl border-2 border-white object-cover shadow-sm"

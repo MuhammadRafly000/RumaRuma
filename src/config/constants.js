@@ -6,6 +6,36 @@ export const DEFAULT_LOCATION =
 export const CURRENCY = import.meta.env.VITE_CURRENCY || 'IDR';
 export const LOCALE = import.meta.env.VITE_LOCALE || 'id-ID';
 
+/**
+ * BRAND
+ * --------------------------------------------------------------
+ * Demo placeholder values for the storefront brand. Replace these
+ * with your real business contact info before going live.
+ * All of these values are surfaced in <Footer/>, <MobileMenu/>,
+ * <SEO/> and the newsletter section.
+ */
+export const BRAND = {
+  name: 'RumaRuma',
+  tagline: 'Home Living Premium',
+  legalName: 'Your Company Name',
+  // Public site
+  domain: 'https://example.com',
+  // Studio / showroom — purely visual demo
+  address: 'Demo Studio · Jakarta, Indonesia',
+  // Contact — using example.com (IANA reserved) so demo can't reach a real inbox.
+  // Replace with your real channels before launch.
+  phoneDisplay: '+62 (000) 0000-0000',
+  phoneHref: 'tel:+620000000000',
+  emailDisplay: 'hello@example.com',
+  emailHref: 'mailto:hello@example.com',
+  // Social handles (links are public homepages — buyer should replace)
+  socials: {
+    instagram: 'https://instagram.com',
+    facebook: 'https://facebook.com',
+    twitter: 'https://twitter.com',
+  },
+};
+
 export const STORAGE_KEYS = {
   cart: 'rumaruma:cart',
   wishlist: 'rumaruma:wishlist',

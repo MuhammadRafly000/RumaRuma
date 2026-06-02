@@ -68,7 +68,7 @@ git commit -m "chore: initial commit — RumaRuma e-commerce"
 
 # Buat repo baru di github.com (private atau public), copy URL-nya
 git branch -M main
-git remote add origin https://github.com/<username>/rumaruma.git
+git remote add origin https://github.com/<username>/your-shop.git
 git push -u origin main
 ```
 
@@ -82,7 +82,7 @@ Jangan pernah push file `.env` yang berisi secret ke GitHub.
 ### Lewat dashboard (cara termudah)
 
 1. Buka <https://vercel.com> → login (Continue with GitHub).
-2. **Add New → Project** → pilih repo `rumaruma` yang barusan di-push.
+2. **Add New → Project** → pilih repo `your-shop` yang barusan di-push.
 3. Vercel auto-detect Vite. Biarkan settings default:
    - **Framework Preset**: Vite
    - **Build Command**: `npm run build`
@@ -94,15 +94,15 @@ Jangan pernah push file `.env` yang berisi secret ke GitHub.
    | Name                   | Value (contoh)                       | Environments       |
    | ---------------------- | ------------------------------------ | ------------------ |
    | `VITE_APP_NAME`        | `RumaRuma`                           | Production, Preview, Development |
-   | `VITE_API_BASE_URL`    | `https://api.rumaruma.id/v1`         | Production         |
-   | `VITE_API_BASE_URL`    | `https://staging-api.rumaruma.id/v1` | Preview            |
+   | `VITE_API_BASE_URL`    | `https://api.yourbrand.com/v1`         | Production         |
+   | `VITE_API_BASE_URL`    | `https://staging-api.yourbrand.com/v1` | Preview            |
    | `VITE_DEFAULT_LOCATION`| `Jakarta Selatan`                    | All                |
    | `VITE_CURRENCY`        | `IDR`                                | All                |
    | `VITE_LOCALE`          | `id-ID`                              | All                |
 
    > Semua env var Vite **wajib** diawali `VITE_` agar terbaca di browser.
 5. Klik **Deploy**. Tunggu ~1-2 menit.
-6. Selesai — website online di `https://rumaruma-<hash>.vercel.app`.
+6. Selesai — website online di `https://your-shop-<hash>.vercel.app`.
 
 ### Lewat Vercel CLI (opsional, advanced)
 
@@ -116,9 +116,9 @@ vercel --prod       # deploy ke production
 ### Custom domain
 
 1. Di dashboard Vercel → project → **Settings → Domains**.
-2. Tambahkan `rumaruma.id` (dan `www.rumaruma.id`).
+2. Tambahkan `yourbrand.com` (dan `www.yourbrand.com`).
 3. Ikuti instruksi DNS:
-   - Apex (`rumaruma.id`): A record → `76.76.21.21`
+   - Apex (`yourbrand.com`): A record → `76.76.21.21`
    - WWW: CNAME → `cname.vercel-dns.com`
 4. Setelah DNS propagate (5 menit – 1 jam), Vercel auto-issue SSL Let's Encrypt.
 
@@ -130,7 +130,7 @@ vercel --prod       # deploy ke production
 
 1. Buka <https://app.netlify.com> → login dengan GitHub.
 2. **Add new site → Import an existing project → GitHub**.
-3. Pilih repo `rumaruma`. Settings akan terbaca dari `netlify.toml`:
+3. Pilih repo `your-shop`. Settings akan terbaca dari `netlify.toml`:
    - **Build command**: `npm run build`
    - **Publish directory**: `dist`
 4. **Site settings → Environment variables** → tambahkan variabel sama seperti
@@ -149,7 +149,7 @@ netlify deploy --prod
 
 ### Custom domain di Netlify
 
-1. **Domain management → Add custom domain** → masukkan `rumaruma.id`.
+1. **Domain management → Add custom domain** → masukkan `yourbrand.com`.
 2. Ikuti panduan DNS (Netlify DNS atau external DNS).
 3. SSL auto-aktif via Let's Encrypt.
 
@@ -255,7 +255,7 @@ Untuk staging vs production yang beda backend:
 
 | Variable            | Production              | Preview / Staging              |
 | ------------------- | ----------------------- | ------------------------------ |
-| `VITE_API_BASE_URL` | `https://api.rumaruma.id/v1` | `https://staging-api.rumaruma.id/v1` |
+| `VITE_API_BASE_URL` | `https://api.yourbrand.com/v1` | `https://staging-api.yourbrand.com/v1` |
 
 Set di:
 

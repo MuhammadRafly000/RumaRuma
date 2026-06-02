@@ -88,7 +88,10 @@ export default function ProductCard({ product, className, layout = 'grid' }) {
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-3xl border border-charcoal-100/70 bg-white shadow-soft transition-shadow hover:shadow-card',
+        // h-full + flex-col so the card stretches to the wrapper height and
+        // the inner content can use mt-auto to anchor the rating row at the
+        // bottom regardless of price/title length.
+        'group relative flex h-full flex-col overflow-hidden rounded-3xl border border-charcoal-100/70 bg-white shadow-soft transition-shadow hover:shadow-card',
         className,
       )}
     >
@@ -128,6 +131,8 @@ export default function ProductCard({ product, className, layout = 'grid' }) {
           <button
             type="button"
             onClick={handleAdd}
+            aria-label={`Tambah ${product.name} ke keranjang`}
+            title="Tambah ke keranjang"
             className="flex-1 rounded-full bg-sage-600 px-3 py-2.5 text-xs font-semibold text-white shadow-soft transition hover:bg-sage-700"
           >
             <ShoppingBag className="mx-auto h-4 w-4" />

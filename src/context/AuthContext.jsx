@@ -1,23 +1,20 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { STORAGE_KEYS } from '@/config/constants';
 import { storage } from '@/utils/storage';
 import * as authService from '@/services/authService';
 
 const AuthContext = createContext(null);
 
+// Read once at module init so the three useState initializers below share the
+// same snapshot rather than hitting localStorage three separate times.
+const initialAuth = storage.get(STORAGE_KEYS.auth);
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const stored = storage.get(STORAGE_KEYS.auth);
-    return stored?.user || null;
-  });
-  const [token, setToken] = useState(() => {
-    const stored = storage.get(STORAGE_KEYS.auth);
-    return stored?.token || null;
-  });
-  const [status, setStatus] = useState(() => {
-    const stored = storage.get(STORAGE_KEYS.auth);
-    return stored?.token ? 'authenticated' : 'idle';
-  });
+  const [user, setUser] = useState(initialAuth?.user || null);
+  const [token, setToken] = useState(initialAuth?.token || null);
+  const [status, setStatus] = useState(
+    initialAuth?.token ? 'authenticated' : 'idle',
+  );
 
   const persist = useCallback((next) => {
     if (next) storage.set(STORAGE_KEYS.auth, next);

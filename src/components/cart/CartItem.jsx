@@ -40,6 +40,7 @@ export default function CartItem({ item, compact = false, onAfterRemove }) {
           originalPrice={item.originalPrice}
           size="sm"
           showBadge={false}
+          reserveBadgeSpace={false}
         />
         <div className="mt-auto flex items-center justify-between gap-2">
           <QuantityStepper

@@ -26,7 +26,16 @@ export default function LoginPage() {
     try {
       await login(form);
       toast.success('Selamat datang kembali!', 'Senang melihatmu lagi di RumaRuma.');
-      navigate(location.state?.from || '/');
+      // `from` is usually a string ('/checkout'), but ProtectedRoute used to
+      // pass the whole Location object — fall back gracefully for either shape.
+      const from = location.state?.from;
+      const dest =
+        typeof from === 'string'
+          ? from
+          : from && typeof from === 'object' && from.pathname
+            ? from.pathname + (from.search || '')
+            : '/';
+      navigate(dest, { replace: true });
     } catch (err) {
       toast.error('Login gagal', err.message);
     } finally {
@@ -90,6 +99,7 @@ export default function LoginPage() {
               label="Email"
               name="email"
               type="email"
+              autoComplete="email"
               placeholder="kamu@email.com"
               leftIcon={Mail}
               value={form.email}
@@ -101,6 +111,7 @@ export default function LoginPage() {
                 label="Password"
                 name="password"
                 type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
                 placeholder="••••••••"
                 leftIcon={Lock}
                 rightIcon={showPassword ? EyeOff : Eye}

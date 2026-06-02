@@ -159,8 +159,8 @@ export default function ProductReviews({ productId, rating, totalReviews }) {
               </p>
               {review.images && review.images.length > 0 && (
                 <div className="mt-4 flex gap-2">
-                  {review.images.map((img, i) => (
-                    <img key={i} src={img} alt="Review attachment" loading="lazy" className="h-20 w-20 rounded-xl object-cover" />
+                  {review.images.map((img) => (
+                    <img key={img} src={img} alt="Review attachment" loading="lazy" className="h-20 w-20 rounded-xl object-cover" />
                   ))}
                 </div>
               )}

@@ -85,10 +85,18 @@ export default function CategoryPage() {
       list = list.filter((p) => p.rating >= filters.minRating);
     if (filters.onlyPromo)
       list = list.filter((p) => p.originalPrice && p.originalPrice > p.price);
-    
-    setPage(1); // Reset page when filters/sort/search change
+
     return sortProducts(list, sort);
   }, [products, filters, sort, queryParam]);
+
+  // Reset to page 1 whenever filters / sort / search change.
+  // Important: this MUST be an effect, not a side effect inside useMemo —
+  // calling setState during another component's render is a React anti-pattern
+  // that can produce stale UI and "Cannot update a component while rendering"
+  // warnings under StrictMode.
+  useEffect(() => {
+    setPage(1);
+  }, [filters, sort, queryParam]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginatedProducts = filtered.slice(

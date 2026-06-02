@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Heart,
@@ -14,6 +15,7 @@ import RatingStars from '@/components/ui/RatingStars.jsx';
 import PriceTag from '@/components/ui/PriceTag.jsx';
 import QuantityStepper from '@/components/ui/QuantityStepper.jsx';
 import Button from '@/components/ui/Button.jsx';
+import { useAuth } from '@/context/AuthContext';
 import { useCartStore } from '@/context/CartContext';
 import { useWishlistStore } from '@/context/WishlistContext';
 import { useToast } from '@/context/ToastContext';
@@ -28,6 +30,8 @@ const tabs = [
 ];
 
 export default function ProductInfo({ product }) {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const [qty, setQty] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const addItem = useCartStore((s) => s.addItem);
@@ -47,7 +51,11 @@ export default function ProductInfo({ product }) {
   const handleBuyNow = () => {
     addItem(product, qty);
     toast.success('Lanjut ke checkout', product.name);
-    window.location.assign('/checkout');
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: '/checkout' } });
+    } else {
+      navigate('/checkout');
+    }
   };
 
   const handleWishlist = () => {
@@ -107,6 +115,7 @@ export default function ProductInfo({ product }) {
           price={product.price}
           originalPrice={product.originalPrice}
           size="lg"
+          reserveBadgeSpace={false}
         />
         <p className="mt-2 text-xs text-charcoal-500">
           Cicilan 0% mulai {formatCurrency(Math.round(product.price / 6))} / bulan

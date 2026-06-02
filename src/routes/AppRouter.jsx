@@ -38,11 +38,32 @@ export default function AppRouter() {
           <Route path="/produk/:slug" element={<ProductDetail />} />
           <Route path="/keranjang" element={<CartPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <CheckoutPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profil" element={<ProfilePage />} />
-          <Route path="/pesanan/:id" element={<OrderDetail />} />
+          <Route
+            path="/profil"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pesanan/:id"
+            element={
+              <ProtectedRoute>
+                <OrderDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/inspirasi" element={<InspirationPage />} />
           <Route path="/jurnal" element={<JournalPage />} />
           <Route path="/jurnal/:slug" element={<JournalDetail />} />

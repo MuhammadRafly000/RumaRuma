@@ -1,12 +1,13 @@
 import { Helmet } from 'react-helmet-async';
+import { BRAND } from '@/config/constants';
 
-export default function SEO({ 
-  title, 
-  description = 'Telusuri koleksi pecah belah dan home living terkurasi dari pengrajin lokal terbaik.', 
+export default function SEO({
+  title,
+  description = 'Telusuri koleksi pecah belah dan home living terkurasi dari pengrajin lokal terbaik.',
   image = '/logo.png', // Ideally a full URL for og:image
-  url = 'https://rumaruma.id' 
+  url = BRAND.domain
 }) {
-  const siteTitle = 'RumaRuma - Home Living & Artisan Ceramics';
+  const siteTitle = `${BRAND.name} — ${BRAND.tagline}`;
   const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
   return (

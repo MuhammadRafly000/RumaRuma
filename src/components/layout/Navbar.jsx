@@ -3,15 +3,21 @@ import { Link, NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Heart,
+  HelpCircle,
   MapPin,
   Menu,
   ShoppingBag,
+  Store,
+  Truck,
   User,
   ChevronDown,
 } from 'lucide-react';
 import Logo from './Logo.jsx';
 import SearchBar from './SearchBar.jsx';
 import MobileMenu from './MobileMenu.jsx';
+import HelpModal from './HelpModal.jsx';
+import TrackOrderModal from './TrackOrderModal.jsx';
+import ResellerModal from './ResellerModal.jsx';
 import CartSidebar from '@/components/cart/CartSidebar.jsx';
 import { NAV_LINKS, DEFAULT_LOCATION } from '@/config/constants';
 import { useCartStore, useCartTotals } from '@/context/CartContext';
@@ -22,6 +28,9 @@ import cn from '@/utils/classNames';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [trackOpen, setTrackOpen] = useState(false);
+  const [resellerOpen, setResellerOpen] = useState(false);
   const isCartOpen = useCartStore((s) => s.isOpen);
   const openCart = useCartStore((s) => s.openCart);
   const closeCart = useCartStore((s) => s.closeCart);
@@ -46,16 +55,31 @@ export default function Navbar() {
               ✦ Free ongkir min. <span className="font-semibold">Rp 250.000</span> · Garansi
               pecah 100% selama pengiriman
             </p>
-            <div className="flex items-center gap-4 opacity-90">
-              <Link to="/login" className="hover:text-sage-200">
+            <div className="flex items-center gap-1 opacity-90">
+              <button
+                type="button"
+                onClick={() => setHelpOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 transition hover:bg-white/10 hover:text-sage-200"
+              >
+                <HelpCircle className="h-3 w-3" />
                 Bantuan
-              </Link>
-              <Link to="/kategori" className="hover:text-sage-200">
+              </button>
+              <button
+                type="button"
+                onClick={() => setTrackOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 transition hover:bg-white/10 hover:text-sage-200"
+              >
+                <Truck className="h-3 w-3" />
                 Cek resi
-              </Link>
-              <Link to="/kategori" className="hover:text-sage-200">
+              </button>
+              <button
+                type="button"
+                onClick={() => setResellerOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 transition hover:bg-white/10 hover:text-sage-200"
+              >
+                <Store className="h-3 w-3" />
                 Jadi reseller
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -178,8 +202,17 @@ export default function Navbar() {
         </nav>
       </header>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        onOpenHelp={() => setHelpOpen(true)}
+        onOpenTrack={() => setTrackOpen(true)}
+        onOpenReseller={() => setResellerOpen(true)}
+      />
       <CartSidebar open={isCartOpen} onClose={closeCart} />
+      <HelpModal open={helpOpen} onClose={() => setHelpOpen(false)} />
+      <TrackOrderModal open={trackOpen} onClose={() => setTrackOpen(false)} />
+      <ResellerModal open={resellerOpen} onClose={() => setResellerOpen(false)} />
     </>
   );
 }
