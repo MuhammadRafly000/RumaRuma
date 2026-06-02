@@ -11,7 +11,7 @@ const stats = [
 
 export default function StorySection() {
   return (
-    <section className="container-page py-16 lg:py-20">
+    <section className="container-page overflow-x-clip py-16 lg:py-20">
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, x: -24 }}

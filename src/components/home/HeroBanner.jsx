@@ -141,11 +141,15 @@ export default function HeroBanner() {
 
           {/* Custom navigation — Lucide chevrons, full design control,
               positioned over the carousel and never clipped. */}
+          {/* Arrows are hidden on mobile — the carousel is swipeable and the
+              pagination dots indicate position there. On mobile, arrows would
+              overlap the hero headline/text. Shown from `md` up where the
+              banner is wide enough to keep them clear of the content. */}
           <button
             ref={prevRef}
             type="button"
             aria-label="Banner sebelumnya"
-            className="absolute left-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-charcoal-700 shadow-elevated backdrop-blur transition hover:scale-105 hover:bg-white active:scale-95 sm:left-4 lg:h-12 lg:w-12"
+            className="absolute left-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-charcoal-700 shadow-elevated backdrop-blur transition hover:scale-105 hover:bg-white active:scale-95 md:grid"
           >
             <ChevronLeft className="h-5 w-5" strokeWidth={2.25} />
           </button>
@@ -153,7 +157,7 @@ export default function HeroBanner() {
             ref={nextRef}
             type="button"
             aria-label="Banner berikutnya"
-            className="absolute right-3 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-charcoal-700 shadow-elevated backdrop-blur transition hover:scale-105 hover:bg-white active:scale-95 sm:right-4 lg:h-12 lg:w-12"
+            className="absolute right-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full bg-white/90 text-charcoal-700 shadow-elevated backdrop-blur transition hover:scale-105 hover:bg-white active:scale-95 md:grid"
           >
             <ChevronRight className="h-5 w-5" strokeWidth={2.25} />
           </button>
